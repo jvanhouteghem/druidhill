@@ -1,0 +1,65 @@
+/*----------------------------------------
+//  grid
+//----------------------------------------*/
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.box{
+    width:50px;
+    border-style: solid;
+    border-width: 2px;
+    /*background: linear-gradient(0deg, #ffff00 70%, white 30%);*/
+    cursor: pointer;
+    margin: 1px;
+    color: #e2e2e2;
+}
+
+.box-border-red{
+    border-color: #ff0000;
+}
+
+.box-top, .box-bottom, .bot-middle{
+    width:50px;
+}
+
+.box-top, .box-bottom {
+    display: flex;
+    height:7px;
+}
+
+.box-square-left, .box-square-right {
+    flex: 0.15;
+}
+
+.box-square-center {
+    flex: 0.7;
+}
+
+.box-square-red{
+    background: #ff0000;
+}
+
+.box-square-blue{
+    background: #0000ff;
+}
+
+.box-square-green{
+    background: #0ff00f;
+}
+
+.box-square-violet{
+    background: #ff00ff;
+}
+
+.box-middle {
+    text-align: center;
+    height:50px;
+}

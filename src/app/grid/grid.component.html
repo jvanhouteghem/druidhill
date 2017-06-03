@@ -1,3 +1,51 @@
-<p>
-  grid works!
-</p>
+<style>
+/* 5 Columns */
+.col-xs-15,
+{
+    position: relative;
+    /*min-height: 1px;*/
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+.smartPhoneWidth {
+    width:300px;
+}
+</style>
+
+
+<div class="smartPhoneWidth">
+
+    
+    <div class="col-xs-15" *ngFor="let n of _getRaid()" oncontextmenu="return false;">
+        <div class="box" ng-class="{'box-border-red': n.buff.lifebloom}" (click)="clickOnPlayer($event, n.getId())" ng-style="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnPlayer($event, n.getId())">
+            <div class="box-top">
+                <div class="box-square-left">&#8203;</div>
+                <div class="box-square-center">&#8203;</div>  
+                <div class="box-square-right">&#8203;</div>
+            </div>
+
+            <div class="box-middle noselect">
+                <div [hidden]="n.isDead">{{n.getCurrentHealth()}}</div>
+                <div [hidden]="n.isDead">{{n.name}}</div>
+                
+                <div [hidden]="!n.isDead">&#8203;</div>
+                <div [hidden]="!n.isDead">Dead</div>
+            </div>
+
+            <div class="box-bottom">
+                <div class="box-square-left">&#8203;</div>
+                <div class="box-square-center">&#8203;</div>  
+                <div class="box-square-right">&#8203;</div>
+            </div>
+        </div>
+    </div>
+
+    {{_getRaid() | slice:0:5 | json}}
+
+</div>
+
+
