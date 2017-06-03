@@ -2,6 +2,22 @@
 //  grid
 //----------------------------------------*/
 
+/* 5 Columns */
+.col-xs-15,
+{
+    position: relative;
+    /*min-height: 1px;*/
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+.smartPhoneWidth {
+    width:300px;
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
