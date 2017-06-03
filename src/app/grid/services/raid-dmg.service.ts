@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {RaidProviderService} from './raid-provider.service';
-
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
 
@@ -9,7 +8,10 @@ export class RaidDmgService {
 
 constructor (
     private raidProviderService:RaidProviderService,
-  ) { 'ngInject'; }
+  ) { 
+    'ngInject'; 
+  }
+
 
   _getRaid(){
     return this.raidProviderService.getRaid();
@@ -54,11 +56,6 @@ constructor (
           subscription.unsubscribe();
         }
     });
-    //
-    /*this.$interval(()=> { // use $interval instead of setInterval to refresh view
-        this.changePlayerHealth(player, inputValue)
-    }, milliSecondByTick, nbTick);
-    return Promise.resolve();*/
   }
 
   // =======================
@@ -138,6 +135,17 @@ constructor (
       /*this.$timeout(()=> { 
           player.buff.setLifeBloom(false);
       }, 1000*5);*/
+      // Interval
+      let subscription: Subscription;
+      let timer = Observable.timer(1000,1000);
+      let count = 0;
+      subscription = timer.subscribe(t=> {
+          count++;
+          if (count >= 5){
+            subscription.unsubscribe();
+            player.buff.setLifeBloom(false);
+          }
+      });
       
     }
   }

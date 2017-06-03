@@ -3,6 +3,8 @@ import {RaidProviderService} from './services/raid-provider.service';
 import {RaidDmgService} from './services/raid-dmg.service';
 import {Player} from './models/player';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-grid',
@@ -21,6 +23,22 @@ export class GridComponent implements OnInit {
 
   ngOnInit () {
     this.raidProviderService.generateRaid();//.then(()=>this.t=setInterval(this.doDmg,1000));
+    this.loadBossPattern();
+  }
+
+  loadBossPattern(){
+    // Interval
+    let subscription: Subscription;
+    let timer = Observable.timer(1000,1000);
+    let count = 0;
+    subscription = timer.subscribe(t=> {
+        count++;
+        let player = this.raidDmgService._getRaid()[0];
+        this._changePlayerHealth(player, 2000); // Ne pas appeller directement le service
+        if (count >= 5){
+          subscription.unsubscribe();
+        }
+    });
   }
 
   _getRaid(){
@@ -55,31 +73,23 @@ export class GridComponent implements OnInit {
     }
   }*/
 
-  clickOnPlayer(evt, playerId){
+  leftClickOnPlayer(evt, playerId){
     let player = this.raidDmgService._getRaid()[playerId];
     if (evt.altKey == true){
-      console.log("call lifebloom");
+      console.log("left + alt");
       this.raidDmgService.lifebloom(playerId);
     }       
     else if (evt.ctrlKey == true){
       this.raidDmgService.changePlayerHealthOnTime(player, 1000);
-      console.log("call debuf");
+      console.log("left + ctrl");
     }
     else {
-      console.log("call instantHeal");
       this._changePlayerHealth(player,-1000);
     }
   }
 
-  /*doDmg(){
-    console.log(this.raid);
-    this.raid[0].setDmgTaken(14000);
-  }*/
-
-  /*test(evt, playerId){
-    console.log(evt);
-    let player = this.raidDmgService._getRaid()[playerId];
-    this._changePlayerHealth(player,-1000);
-  }*/
+  rightClickOnPlayer(evt, playerId){
+    this.raidDmgService.lifebloom(playerId);
+  }
 
 }
