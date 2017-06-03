@@ -26,16 +26,18 @@ export class GridComponent implements OnInit {
     this.loadBossPattern();
   }
 
+  // todo create class boss + child custom boss
   loadBossPattern(){
     // Interval
+    // ajouter modulo pour savoir quelle est l'attaque à faire
     let subscription: Subscription;
     let timer = Observable.timer(1000,1000);
     let count = 0;
     subscription = timer.subscribe(t=> {
         count++;
-        let player = this.raidDmgService._getRaid()[0];
+        let player = this.raidDmgService._getRaid()[Math.floor((Math.random() * 20))];
         this._changePlayerHealth(player, 2000); // Ne pas appeller directement le service
-        if (count >= 5){
+        if (count >= 50){
           subscription.unsubscribe();
         }
     });
@@ -46,7 +48,8 @@ export class GridComponent implements OnInit {
   }
 
   getCSSGradient(playerId:number){
-    return "linear-gradient(0deg, #839b55 " + this._getPlayerHealthInPercent(playerId) + "%, #4a4a4a 0%)"; // Warning, don't add ";" in string
+    let player = this.raidDmgService._getRaid()[playerId];
+    return "linear-gradient(0deg, " + player.getClassColor() + " " + this._getPlayerHealthInPercent(player.getId()) + "%, #4a4a4a 0%)"; // Warning, don't add ";" in string // life / background
   }
 
   _changePlayerHealth(player: Player,inputNb: number){

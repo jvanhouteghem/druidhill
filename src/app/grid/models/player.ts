@@ -1,28 +1,38 @@
 import {Buff} from './buff';
 
+/*const enum ClassColor {
+    DRUID = 1,
+    ROGUE = A * 2
+}*/
+
 export class Player {
 
   private id:number;
   private name:String;
   private baseHealth:number;
   private dmgTaken:number;
-
   public buff:Buff;
+  private classColor:string;
 
   //Remplacer par objet status
   public isDead:boolean;
 
-  constructor(id:number, name:String, baseHealth:number){
+  constructor(id:number, name:String, baseHealth:number, classColor:string){
       this.id = id;
       this.name = name;
       this.baseHealth = baseHealth;
       this.dmgTaken = 0;
       this.buff = new Buff();
       this.isDead = false;
+      this.classColor = classColor;
   }
 
   getCurrentHealth(){
     return this.baseHealth - this.dmgTaken;
+  }
+
+  getClassColor(){
+    return this.classColor;
   }
 
   getCurrentHealthInPercent(){
