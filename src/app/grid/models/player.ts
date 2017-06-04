@@ -76,6 +76,10 @@ export class Player {
     return this.isTank;
   }
 
+  setTankValue(tankValue){
+    this.isTank = tankValue;
+  }
+
   kill(){
     this.dmgTaken = this.baseHealth;
   }

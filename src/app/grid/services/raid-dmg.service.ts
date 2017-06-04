@@ -165,22 +165,22 @@ constructor (
           //console.log(seconds);
 
           // Main attack
-          let tankPlayer = this.raidProviderService.getTankIfAliveOrElsePlayer();
-          if (tankPlayer != null){
-            this.setFocus(tankPlayer);
-            this.changePlayerHealth(tankPlayer, 5000);
+          let tankIfAliveOrElsePlayer = this.raidProviderService.getTankIfAliveOrElsePlayer();
+          if (tankIfAliveOrElsePlayer != null){
+            this.setFocus(tankIfAliveOrElsePlayer);
+            this.changePlayerHealth(tankIfAliveOrElsePlayer, 2000);
           }
 
           // Secondary attack (every n seconds) // attackonly alive person
           let randomPlayer = this.raidProviderService.getRandomAlivePlayer();
           if (randomPlayer != null){
-            this.changePlayerHealth(randomPlayer, 2000); // Ne pas appeller directement le service
+            this.changePlayerHealth(randomPlayer, 1000);
           }
 
           // Thrid attack (every n seconds)
           randomPlayer = this.raidProviderService.getRandomAlivePlayer();
           if (randomPlayer != null){
-            this.changePlayerHealth(randomPlayer, 500); // Ne pas appeller directement le service
+            this.changePlayerHealth(randomPlayer, 500);
           }
         }
         seconds++;
@@ -189,8 +189,8 @@ constructor (
 
   // Only one focus by time
   setFocus(player:Player){
-    this.resetBossFocus();
     player.setIsFocusByBoss(true);
+    player.setTankValue(true); // If tank is dead then the next target become the tank even if she is weak
   }
 
   // reset focus
