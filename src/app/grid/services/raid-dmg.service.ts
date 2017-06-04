@@ -165,16 +165,15 @@ constructor (
           //console.log(seconds);
 
           // Main attack
-          // get focus (first tank then someone at random)
-          let tankPlayer = this._getRaid()[2];
+          let tankPlayer = this.raidProviderService.getTankIfAliveOrElsePlayer();
           if (tankPlayer != null){
-            this.changePlayerHealth(tankPlayer, 500);
+            this.changePlayerHealth(tankPlayer, 5000);
           }
 
           // Secondary attack (every n seconds) // attackonly alive person
           let randomPlayer = this.raidProviderService.getRandomAlivePlayer();
           if (randomPlayer != null){
-            this.changePlayerHealth(randomPlayer, 6000); // Ne pas appeller directement le service
+            this.changePlayerHealth(randomPlayer, 2000); // Ne pas appeller directement le service
           }
 
           // Thrid attack (every n seconds)

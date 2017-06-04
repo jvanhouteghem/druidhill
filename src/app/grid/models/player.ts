@@ -69,6 +69,10 @@ export class Player {
     }
   }
 
+  getTankValue(){
+    return this.isTank;
+  }
+
   kill(){
     this.dmgTaken = this.baseHealth;
   }

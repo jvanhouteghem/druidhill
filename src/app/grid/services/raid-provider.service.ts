@@ -97,9 +97,15 @@ private raid:Player[] = [];
     }
   }
 
-  /*doDmg(){
-    console.log(this.raid);
-    this.raid[0].setDmgTaken(14000);
-  }*/
+  getTankIfAliveOrElsePlayer(){
+    // if tank is alive
+    for (let i = 0 ; i < this.getRaid().length ; i++){
+      if(!this.raid[i].isDead() && this.raid[i].getTankValue()){
+        return this.raid[i];
+      }
+    } 
+    // else
+    return this.getRandomAlivePlayer();
+  }
 
 }
