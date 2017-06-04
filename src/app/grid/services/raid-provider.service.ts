@@ -31,7 +31,7 @@ private raid:Player[] = [];
   generateRaid(){
     this.raid.push(new Player(this.generatePlayerId(), 'Max', 15000, CLASSCOLORS.hunt));
     this.raid.push(new Player(this.generatePlayerId(), 'Lea', 22000, CLASSCOLORS.rogue));
-    this.raid.push(new Player(this.generatePlayerId(), 'Ark', 10000, CLASSCOLORS.war));
+    this.raid.push(new Player(this.generatePlayerId(), 'Ark', 30000, CLASSCOLORS.war, true));
     this.raid.push(new Player(this.generatePlayerId(), 'Niz', 10000, CLASSCOLORS.pal));
     this.raid.push(new Player(this.generatePlayerId(), 'Lupo', 10000, CLASSCOLORS.priest));
     this.raid.push(new Player(this.generatePlayerId(), 'Cam', 10000, CLASSCOLORS.hunt));

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {RaidProviderService} from './raid-provider.service';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
+import {Boss} from '../models/boss';
 
 @Injectable()
 export class RaidDmgService {
@@ -132,9 +133,6 @@ constructor (
     if (this.isHealingPossible(player)){
       player.buff.setLifeBloom(true);
       this.changePlayerHealthOnTime(player, -500, 1000, 5);
-      /*this.$timeout(()=> { 
-          player.buff.setLifeBloom(false);
-      }, 1000*5);*/
       // Interval
       let subscription: Subscription;
       let timer = Observable.timer(1000,1000);
@@ -153,5 +151,40 @@ constructor (
   // =======================
   // Negative Spells
   // =======================
+
+
+  // =======================
+  // Boss attacks
+  // =======================
+
+  doBossPattern(boss:Boss){
+    // Interval
+    let subscription: Subscription;
+    let timer = Observable.timer(1000,1000);
+    let seconds = 0;
+    subscription = timer.subscribe(t=> {      
+        // If boss is dead then stop
+        if (boss.isDead()){
+          subscription.unsubscribe();
+        } else {
+          seconds++;
+          //console.log(seconds);
+
+          // Main attack
+          // get focus (first tank then someone at random)
+          let tankPlayer = this._getRaid()[2];
+          this.changePlayerHealth(tankPlayer, 500);
+
+          // Secondary attack (every n seconds)
+          let randomPlayer = this._getRaid()[Math.floor((Math.random() * 20))];
+          this.changePlayerHealth(randomPlayer, 2000); // Ne pas appeller directement le service
+
+          // Thrid attack (every n seconds)
+          randomPlayer = this._getRaid()[Math.floor((Math.random() * 20))];
+          this.changePlayerHealth(randomPlayer, 500); // Ne pas appeller directement le service
+        }
+
+    });
+  }
 
 }

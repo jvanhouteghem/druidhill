@@ -1,10 +1,5 @@
 import {Buff} from './buff';
 
-/*const enum ClassColor {
-    DRUID = 1,
-    ROGUE = A * 2
-}*/
-
 export class Player {
 
   private id:number;
@@ -19,7 +14,7 @@ export class Player {
   public isDead:boolean;
 
 
-  constructor(id:number, name:String, baseHealth:number, classColor:string, isTank=true){
+  constructor(id:number, name:String, baseHealth:number, classColor:string, isTank=false){
       this.id = id;
       this.name = name;
       this.baseHealth = baseHealth;
