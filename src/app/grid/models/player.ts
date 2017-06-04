@@ -10,6 +10,8 @@ export class Player {
   private classColor:string;
   private isTank:boolean; // boss focus tank at first
 
+  private isFocusByBoss;
+
   //Remplacer par objet status
   //public isDead:boolean;
 
@@ -23,6 +25,7 @@ export class Player {
       //this.isDead = false;
       this.classColor = classColor;
       this.isTank = isTank;
+      this.isFocusByBoss = false;
   }
 
   getCurrentHealth(){
@@ -75,6 +78,10 @@ export class Player {
 
   kill(){
     this.dmgTaken = this.baseHealth;
+  }
+
+  setIsFocusByBoss(isFocus:boolean){
+    this.isFocusByBoss = isFocus;
   }
 
 }

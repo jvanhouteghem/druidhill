@@ -4,7 +4,7 @@
     <div class="col-xs-15" *ngFor="let n of _getRaid()" oncontextmenu="return false;">
         <div class="box" [ngClass]="{'box-border-red': n.buff.lifebloom}" (contextmenu)="rightClickOnPlayer($event, n.getId())" (click)="leftClickOnPlayer($event, n.getId())" [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnPlayer($event, n.getId())">
             <div class="box-top">
-                <div class="box-square-left" [ngClass]="{'box-square-red' : n.isTank}">&#8203;</div>
+                <div class="box-square-left" [ngClass]="{'box-square-red' : n.isFocusByBoss && !n.isDead()}">&#8203;</div>
                 <div class="box-square-center">&#8203;</div>  
                 <div class="box-square-right">&#8203;</div>
             </div>

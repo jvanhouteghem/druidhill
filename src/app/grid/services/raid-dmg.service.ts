@@ -167,6 +167,7 @@ constructor (
           // Main attack
           let tankPlayer = this.raidProviderService.getTankIfAliveOrElsePlayer();
           if (tankPlayer != null){
+            this.setFocus(tankPlayer);
             this.changePlayerHealth(tankPlayer, 5000);
           }
 
@@ -184,6 +185,19 @@ constructor (
         }
         seconds++;
     });
+  }
+
+  // Only one focus by time
+  setFocus(player:Player){
+    this.resetBossFocus();
+    player.setIsFocusByBoss(true);
+  }
+
+  // reset focus
+  resetBossFocus(){
+    for (let i = 0 ; i < this._getRaid().length ; i++){
+      this._getRaid()[i].setIsFocusByBoss(false);
+    }
   }
 
 }
