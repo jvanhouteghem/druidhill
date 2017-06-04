@@ -74,7 +74,7 @@ constructor (
 
   isHealingPossible(inputPlayer){
     // Cannot receive heal if full
-    if (this.isDead(inputPlayer)){
+    if (this.isPlayerDead(inputPlayer)){
       return false;
     } else {
       return true;
@@ -83,7 +83,7 @@ constructor (
 
   isDmgPossible(inputPlayer){
     // Cannot receive anymore damage if dead
-    if (this.isDead(inputPlayer)){
+    if (inputPlayer != null && this.isPlayerDead(inputPlayer)){
       return false;
     } else {
       return true;
@@ -98,7 +98,7 @@ constructor (
     }
   }
 
-  isDead(inputPlayer){
+  isPlayerDead(inputPlayer){
     if ((inputPlayer.getCurrentHealth() == 0) || inputPlayer.isDead){
       return true;
     } else {
@@ -164,10 +164,9 @@ constructor (
     let seconds = 0;
     subscription = timer.subscribe(t=> {      
         // If boss is dead then stop
-        if (boss.isDead()){
+        if (boss.isDead() || this.raidProviderService.isWipe()){
           subscription.unsubscribe();
         } else {
-          seconds++;
           //console.log(seconds);
 
           // Main attack
@@ -175,15 +174,15 @@ constructor (
           let tankPlayer = this._getRaid()[2];
           this.changePlayerHealth(tankPlayer, 500);
 
-          // Secondary attack (every n seconds)
-          let randomPlayer = this._getRaid()[Math.floor((Math.random() * 20))];
+          // Secondary attack (every n seconds) // attackonly alive person
+          let randomPlayer = this.raidProviderService.getRandomAlivePlayer();
           this.changePlayerHealth(randomPlayer, 2000); // Ne pas appeller directement le service
 
           // Thrid attack (every n seconds)
-          randomPlayer = this._getRaid()[Math.floor((Math.random() * 20))];
+          randomPlayer = this.raidProviderService.getRandomAlivePlayer();
           this.changePlayerHealth(randomPlayer, 500); // Ne pas appeller directement le service
         }
-
+        seconds++;
     });
   }
 

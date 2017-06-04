@@ -59,6 +59,8 @@ private raid:Player[] = [];
     this.raid[7].setDmgTaken(5000);
     this.raid[9].setDmgTaken(7000);
 
+    //this.doWipe();
+
     // fail
     //var t=setInterval(this.doDmg,1000);
     return true;
@@ -66,6 +68,33 @@ private raid:Player[] = [];
 
   getRaid():Player[]{
     return this.raid;
+  }
+
+  getRandomAlivePlayer(){
+    let randomAlivePlayerResult = null;
+    let raidLength = this.getRaid().length;
+    for (let i = 0 ; i < raidLength ; i++){
+      let currentPlayer = this.getRaid()[Math.floor((Math.random() * raidLength))];
+      randomAlivePlayerResult = currentPlayer.getCurrentHealth() > 0 ? currentPlayer : null;
+    }
+    return randomAlivePlayerResult;
+  }
+
+  isWipe(){
+    /*let result = true;
+    for (let i = 0 ; i < this.getRaid().length ; i++){
+      if(this.raid[i].getCurrentHealth() >= 0){
+        result = false;
+        break;
+      }
+    }*/
+    return false; //result;
+  }
+
+  doWipe(){
+    for (let i = 0 ; i < this.getRaid().length ; i++){
+      this.raid[i].kill();
+    }
   }
 
   /*doDmg(){

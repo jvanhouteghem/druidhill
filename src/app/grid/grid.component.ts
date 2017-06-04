@@ -21,8 +21,6 @@ export class GridComponent implements OnInit {
     private bossProviderService:BossProviderService
   ) { 'ngInject'; }
 
-  t:any;
-
   ngOnInit () {
     this.raidProviderService.generateRaid();//.then(()=>this.t=setInterval(this.doDmg,1000));
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
