@@ -1,6 +1,6 @@
 import {Buff} from './buff';
 
-export class Player {
+export class Hero {
 
   private id:number;
   private name:String;

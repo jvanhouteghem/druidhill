@@ -3,7 +3,7 @@ import {RaidProviderService} from './raid-provider.service';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
 import {Boss} from '../models/boss';
-import {Player} from '../models/player';
+import {Hero} from '../models/hero';
 
 @Injectable()
 export class RaidDmgService {
@@ -24,38 +24,38 @@ constructor (
   // =======================
 
   // If inputValue > 0 then its a damage, if inputValue < 0 then its a heal
-  changePlayerHealth(inputPlayer, inputValue:number){
-    //if (inputPlayer != null){
+  changeHeroHealth(inputHero, inputValue:number){
+    //if (inputHero != null){
       // Damage
-      if (!this.isHeal(inputValue) && this.isDmgPossible(inputPlayer)){
-        inputPlayer.setDmgTaken(inputPlayer.getDmgTaken() + inputValue);
+      if (!this.isHeal(inputValue) && this.isDmgPossible(inputHero)){
+        inputHero.setDmgTaken(inputHero.getDmgTaken() + inputValue);
         // Lethal
-        if (this.isLethalDmg(inputPlayer, inputValue)){
-          inputPlayer.kill();
+        if (this.isLethalDmg(inputHero, inputValue)){
+          inputHero.kill();
         }
       }
       // Heal
-      else if (this.isHeal(inputValue) && this.isHealingPossible(inputPlayer) && !this.isFullLife(inputPlayer)){
+      else if (this.isHeal(inputValue) && this.isHealingPossible(inputHero) && !this.isFullLife(inputHero)){
         // Receive part of heal (if current life + heal > baseHealth then set currentHealth to baseHealth)
-        if (this.isHealExceedBaseHealth(inputPlayer, inputValue)){
-          inputPlayer.setDmgTaken(0);
+        if (this.isHealExceedBaseHealth(inputHero, inputValue)){
+          inputHero.setDmgTaken(0);
         } 
         // Else receive full heal
         else {
-          inputPlayer.setDmgTaken(inputPlayer.getDmgTaken() + inputValue);
+          inputHero.setDmgTaken(inputHero.getDmgTaken() + inputValue);
         }
       }
     //}
   }
 
-  changePlayerHealthOnTime(player, inputValue, milliSecondByTick=1000, nbTick=5){
+  changeHeroHealthOnTime(hero, inputValue, milliSecondByTick=1000, nbTick=5){
     // Interval
     let subscription: Subscription;
     let timer = Observable.timer(1000,milliSecondByTick);
     let count = 0;
     subscription = timer.subscribe(t=> {
         count++;
-        this.changePlayerHealth(player,inputValue);
+        this.changeHeroHealth(hero,inputValue);
         if (count >= nbTick){
           subscription.unsubscribe();
         }
@@ -75,42 +75,42 @@ constructor (
     }
   } 
 
-  isHealingPossible(inputPlayer: Player){
+  isHealingPossible(inputHero: Hero){
     // Cannot receive heal if full
-    if (inputPlayer.isDead()){
+    if (inputHero.isDead()){
       return false;
     } else {
       return true;
     }
   }
 
-  isDmgPossible(inputPlayer: Player){
+  isDmgPossible(inputHero: Hero){
     // Cannot receive anymore damage if dead
-    if (inputPlayer.isDead()){
+    if (inputHero.isDead()){
       return false;
     } else {
       return true;
     }
   }
 
-  isFullLife(inputPlayer: Player){
-    if ((inputPlayer.getCurrentHealth() == inputPlayer.getBaseHealth())){
+  isFullLife(inputHero: Hero){
+    if ((inputHero.getCurrentHealth() == inputHero.getBaseHealth())){
       return true;
     } else {
       return false;
     }
   }
 
-  isHealExceedBaseHealth(player: Player, inputValue){
-    if (inputValue > player.getDmgTaken()){
+  isHealExceedBaseHealth(hero: Hero, inputValue){
+    if (inputValue > hero.getDmgTaken()){
       return true;
     } else {
       return false;
     }
   }
 
-  isLethalDmg(player: Player, inputValue){
-    if (player.getCurrentHealth() - inputValue <= 0){
+  isLethalDmg(hero: Hero, inputValue){
+    if (hero.getCurrentHealth() - inputValue <= 0){
       return true;
     } else {
       return false;
@@ -121,13 +121,13 @@ constructor (
   // Positive Spells
   // =======================
 
-  lifebloom(playerId){
+  lifebloom(heroId){
 
-    let player = this._getRaid()[playerId];
+    let hero = this._getRaid()[heroId];
 
-    if (this.isHealingPossible(player)){
-      player.buff.setLifeBloom(true);
-      this.changePlayerHealthOnTime(player, -500, 1000, 5);
+    if (this.isHealingPossible(hero)){
+      hero.buff.setLifeBloom(true);
+      this.changeHeroHealthOnTime(hero, -500, 1000, 5);
       // Interval
       let subscription: Subscription;
       let timer = Observable.timer(1000,1000);
@@ -136,7 +136,7 @@ constructor (
           count++;
           if (count >= 5){
             subscription.unsubscribe();
-            player.buff.setLifeBloom(false);
+            hero.buff.setLifeBloom(false);
           }
       });
       
@@ -165,22 +165,22 @@ constructor (
           //console.log(seconds);
 
           // Main attack
-          let tankIfAliveOrElsePlayer = this.raidProviderService.getTankIfAliveOrElsePlayer();
-          if (tankIfAliveOrElsePlayer != null){
-            this.setFocus(tankIfAliveOrElsePlayer);
-            this.changePlayerHealth(tankIfAliveOrElsePlayer, 2000);
+          let tankIfAliveOrElseHero = this.raidProviderService.getTankIfAliveOrElseHero();
+          if (tankIfAliveOrElseHero != null){
+            this.setFocus(tankIfAliveOrElseHero);
+            this.changeHeroHealth(tankIfAliveOrElseHero, 2000);
           }
 
           // Secondary attack (every n seconds) // attackonly alive person
-          let randomPlayer = this.raidProviderService.getRandomAlivePlayer();
-          if (randomPlayer != null){
-            this.changePlayerHealth(randomPlayer, 1000);
+          let randomHero = this.raidProviderService.getRandomAliveHero();
+          if (randomHero != null){
+            this.changeHeroHealth(randomHero, 1000);
           }
 
           // Thrid attack (every n seconds)
-          randomPlayer = this.raidProviderService.getRandomAlivePlayer();
-          if (randomPlayer != null){
-            this.changePlayerHealth(randomPlayer, 500);
+          randomHero = this.raidProviderService.getRandomAliveHero();
+          if (randomHero != null){
+            this.changeHeroHealth(randomHero, 500);
           }
         }
         seconds++;
@@ -188,9 +188,9 @@ constructor (
   }
 
   // Only one focus by time
-  setFocus(player:Player){
-    player.setIsFocusByBoss(true);
-    player.setTankValue(true); // If tank is dead then the next target become the tank even if she is weak
+  setFocus(hero:Hero){
+    hero.setIsFocusByBoss(true);
+    hero.setTankValue(true); // If tank is dead then the next target become the tank even if she is weak
   }
 
   // reset focus

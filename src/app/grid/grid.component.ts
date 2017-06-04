@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RaidProviderService} from './services/raid-provider.service';
 import {RaidDmgService} from './services/raid-dmg.service';
 import {BossProviderService} from './services/boss-provider.service';
-import {Player} from './models/player';
+import {Hero} from './models/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
@@ -30,36 +30,36 @@ export class GridComponent implements OnInit {
     return this.raidProviderService.getRaid();
   }
 
-  getCSSGradient(playerId:number){
-    let player = this.raidDmgService._getRaid()[playerId];
-    return "linear-gradient(0deg, " + player.getClassColor() + " " + this._getPlayerHealthInPercent(player.getId()) + "%, #4a4a4a 0%)"; // Warning, don't add ";" in string // life / background
+  getCSSGradient(heroId:number){
+    let hero = this.raidDmgService._getRaid()[heroId];
+    return "linear-gradient(0deg, " + hero.getClassColor() + " " + this._getHeroHealthInPercent(hero.getId()) + "%, #4a4a4a 0%)"; // Warning, don't add ";" in string // life / background
   }
 
-  _changePlayerHealth(player: Player,inputNb: number){
-    this.raidDmgService.changePlayerHealth(player, inputNb);
+  _changeHeroHealth(hero: Hero,inputNb: number){
+    this.raidDmgService.changeHeroHealth(hero, inputNb);
   }
 
-  _getPlayerHealthInPercent(playerId:number){
-    return this.raidDmgService._getRaid()[playerId].getCurrentHealthInPercent();
+  _getHeroHealthInPercent(heroId:number){
+    return this.raidDmgService._getRaid()[heroId].getCurrentHealthInPercent();
   }
 
-  leftClickOnPlayer(evt, playerId){
-    let player = this.raidDmgService._getRaid()[playerId];
+  leftClickOnHero(evt, heroId){
+    let hero = this.raidDmgService._getRaid()[heroId];
     /*if (evt.altKey == true){
       console.log("left + alt");
-      this.raidDmgService.lifebloom(playerId);
+      this.raidDmgService.lifebloom(heroId);
     }       
     else if (evt.ctrlKey == true){
-      this.raidDmgService.changePlayerHealthOnTime(player, 1000);
+      this.raidDmgService.changeHeroHealthOnTime(hero, 1000);
       console.log("left + ctrl");
     }
     else {*/
-      this._changePlayerHealth(player,-1000);
+      this._changeHeroHealth(hero,-1000);
     //}
   }
 
-  rightClickOnPlayer(evt, playerId){
-    this.raidDmgService.lifebloom(playerId);
+  rightClickOnHero(evt, heroId){
+    this.raidDmgService.lifebloom(heroId);
   }
 
 }

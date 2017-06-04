@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Player} from '../models/player';
+import {Hero} from '../models/hero';
 
 export const CLASSCOLORS = {
   hunt: "#839b55",
@@ -14,43 +14,43 @@ export const CLASSCOLORS = {
 @Injectable()
 export class RaidProviderService {
 
-private raid:Player[] = [];
-  private countPlayer: number;
+private raid:Hero[] = [];
+  private countHero: number;
 
   constructor () { 
     'ngInject';
-    this.countPlayer = -1; 
+    this.countHero = -1; 
   }
 
-  // Incremental for each player
-  generatePlayerId(){
-    this.countPlayer++;
-    return this.countPlayer;
+  // Incremental for each hero
+  generateHeroId(){
+    this.countHero++;
+    return this.countHero;
   }
 
   generateRaid(){
-    this.raid.push(new Player(this.generatePlayerId(), 'Max', 15000, CLASSCOLORS.hunt));
-    this.raid.push(new Player(this.generatePlayerId(), 'Lea', 22000, CLASSCOLORS.rogue));
-    this.raid.push(new Player(this.generatePlayerId(), 'Ark', 30000, CLASSCOLORS.war, true));
-    this.raid.push(new Player(this.generatePlayerId(), 'Niz', 10000, CLASSCOLORS.pal));
-    this.raid.push(new Player(this.generatePlayerId(), 'Lupo', 10000, CLASSCOLORS.priest));
-    this.raid.push(new Player(this.generatePlayerId(), 'Cam', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Player(this.generatePlayerId(), 'Shak', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Player(this.generatePlayerId(), 'Meg', 10000, CLASSCOLORS.druid));
-    this.raid.push(new Player(this.generatePlayerId(), 'Pop', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Player(this.generatePlayerId(), 'Cor', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Max', 15000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lea', 22000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Ark', 30000, CLASSCOLORS.war, true));
+    this.raid.push(new Hero(this.generateHeroId(), 'Niz', 10000, CLASSCOLORS.pal));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lupo', 10000, CLASSCOLORS.priest));
+    this.raid.push(new Hero(this.generateHeroId(), 'Cam', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Shak', 10000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Meg', 10000, CLASSCOLORS.druid));
+    this.raid.push(new Hero(this.generateHeroId(), 'Pop', 10000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Cor', 10000, CLASSCOLORS.hunt));
     // 10 - 15
-    this.raid.push(new Player(this.generatePlayerId(), 'Lot', 10000, CLASSCOLORS.pal));
-    this.raid.push(new Player(this.generatePlayerId(), 'Vim', 10000, CLASSCOLORS.wizard));
-    this.raid.push(new Player(this.generatePlayerId(), 'Luf', 10000, CLASSCOLORS.war));
-    this.raid.push(new Player(this.generatePlayerId(), 'Gop', 10000, CLASSCOLORS.druid));
-    this.raid.push(new Player(this.generatePlayerId(), 'Tor', 10000, CLASSCOLORS.priest));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lot', 10000, CLASSCOLORS.pal));
+    this.raid.push(new Hero(this.generateHeroId(), 'Vim', 10000, CLASSCOLORS.wizard));
+    this.raid.push(new Hero(this.generateHeroId(), 'Luf', 10000, CLASSCOLORS.war));
+    this.raid.push(new Hero(this.generateHeroId(), 'Gop', 10000, CLASSCOLORS.druid));
+    this.raid.push(new Hero(this.generateHeroId(), 'Tor', 10000, CLASSCOLORS.priest));
     // 15 -20
-    this.raid.push(new Player(this.generatePlayerId(), 'Nim', 10000, CLASSCOLORS.wizard));
-    this.raid.push(new Player(this.generatePlayerId(), 'Lou', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Player(this.generatePlayerId(), 'Rag', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Player(this.generatePlayerId(), 'Pur', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Player(this.generatePlayerId(), 'Naz', 10000, CLASSCOLORS.pal));
+    this.raid.push(new Hero(this.generateHeroId(), 'Nim', 10000, CLASSCOLORS.wizard));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lou', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Rag', 10000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Pur', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Naz', 10000, CLASSCOLORS.pal));
     
     // Add default dmg
     this.raid[0].setDmgTaken(2000);
@@ -63,21 +63,21 @@ private raid:Player[] = [];
     return true;
   }
 
-  getRaid():Player[]{
+  getRaid():Hero[]{
     return this.raid;
   }
 
-  getRandomAlivePlayer(){
-    let randomAlivePlayerResult = null;
+  getRandomAliveHero(){
+    let randomAliveHeroResult = null;
     let raidLength = this.getRaid().length;
-    for (let i = 0 ; i < raidLength && randomAlivePlayerResult === null ; i++){
-      let currentPlayer = this.getRaid()[Math.floor((Math.random() * raidLength))];
-      if (currentPlayer.getCurrentHealth() > 0){
-        randomAlivePlayerResult = currentPlayer;
+    for (let i = 0 ; i < raidLength && randomAliveHeroResult === null ; i++){
+      let currentHero = this.getRaid()[Math.floor((Math.random() * raidLength))];
+      if (currentHero.getCurrentHealth() > 0){
+        randomAliveHeroResult = currentHero;
       }
     }
-    return randomAlivePlayerResult;
-    //return randomAlivePlayerResult !== null ? randomAlivePlayerResult : (function(){throw "getRandomAlivePlayer : player is null"}());
+    return randomAliveHeroResult;
+    //return randomAliveHeroResult !== null ? randomAliveHeroResult : (function(){throw "getRandomAliveHero : hero is null"}());
   }
 
   isWipe(){
@@ -97,7 +97,7 @@ private raid:Player[] = [];
     }
   }
 
-  getTankIfAliveOrElsePlayer(){
+  getTankIfAliveOrElseHero(){
     // if tank is alive
     for (let i = 0 ; i < this.getRaid().length ; i++){
       if(!this.raid[i].isDead() && this.raid[i].getTankValue()){
@@ -105,7 +105,7 @@ private raid:Player[] = [];
       }
     } 
     // else
-    return this.getRandomAlivePlayer();
+    return this.getRandomAliveHero();
   }
 
 }
