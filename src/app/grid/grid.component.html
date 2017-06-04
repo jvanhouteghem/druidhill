@@ -10,11 +10,11 @@
             </div>
 
             <div class="box-middle noselect">
-                <div [hidden]="n.isDead">{{n.dmgTaken == 0 ? '&#8203;' : -n.dmgTaken}}</div>
-                <div [hidden]="n.isDead">{{n.name}}</div>
+                <div [hidden]="n.isDead()">{{n.dmgTaken == 0 ? '&#8203;' : -n.dmgTaken}}</div>
+                <div [hidden]="n.isDead()">{{n.name}}</div>
                 
-                <div [hidden]="!n.isDead">&#8203;</div>
-                <div [hidden]="!n.isDead">Dead</div>
+                <div [hidden]="!n.isDead()">&#8203;</div>
+                <div [hidden]="!n.isDead()">Dead</div>
             </div>
 
             <div class="box-bottom">

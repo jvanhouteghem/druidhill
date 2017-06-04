@@ -11,7 +11,7 @@ export class Player {
   private isTank:boolean; // boss focus tank at first
 
   //Remplacer par objet status
-  public isDead:boolean;
+  //public isDead:boolean;
 
 
   constructor(id:number, name:String, baseHealth:number, classColor:string, isTank=false){
@@ -20,7 +20,7 @@ export class Player {
       this.baseHealth = baseHealth;
       this.dmgTaken = 0;
       this.buff = new Buff();
-      this.isDead = false;
+      //this.isDead = false;
       this.classColor = classColor;
       this.isTank = isTank;
   }
@@ -61,8 +61,15 @@ export class Player {
     this.dmgTaken = dmgTaken;
   }
 
+  isDead(){
+    if ((this.getCurrentHealth() <= 0)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   kill(){
-    this.isDead = true;
     this.dmgTaken = this.baseHealth;
   }
 

@@ -40,17 +40,17 @@ private raid:Player[] = [];
     this.raid.push(new Player(this.generatePlayerId(), 'Pop', 10000, CLASSCOLORS.rogue));
     this.raid.push(new Player(this.generatePlayerId(), 'Cor', 10000, CLASSCOLORS.hunt));
     // 10 - 15
-    this.raid.push(new Player(this.generatePlayerId(), 'Cam', 10000, CLASSCOLORS.pal));
-    this.raid.push(new Player(this.generatePlayerId(), 'Shak', 10000, CLASSCOLORS.wizard));
-    this.raid.push(new Player(this.generatePlayerId(), 'Meg', 10000, CLASSCOLORS.war));
-    this.raid.push(new Player(this.generatePlayerId(), 'Pop', 10000, CLASSCOLORS.druid));
-    this.raid.push(new Player(this.generatePlayerId(), 'Cor', 10000, CLASSCOLORS.priest));
+    this.raid.push(new Player(this.generatePlayerId(), 'Lot', 10000, CLASSCOLORS.pal));
+    this.raid.push(new Player(this.generatePlayerId(), 'Vim', 10000, CLASSCOLORS.wizard));
+    this.raid.push(new Player(this.generatePlayerId(), 'Luf', 10000, CLASSCOLORS.war));
+    this.raid.push(new Player(this.generatePlayerId(), 'Gop', 10000, CLASSCOLORS.druid));
+    this.raid.push(new Player(this.generatePlayerId(), 'Tor', 10000, CLASSCOLORS.priest));
     // 15 -20
-    this.raid.push(new Player(this.generatePlayerId(), 'Cam', 10000, CLASSCOLORS.wizard));
-    this.raid.push(new Player(this.generatePlayerId(), 'Shak', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Player(this.generatePlayerId(), 'Meg', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Player(this.generatePlayerId(), 'Pop', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Player(this.generatePlayerId(), 'Cor', 10000, CLASSCOLORS.pal));
+    this.raid.push(new Player(this.generatePlayerId(), 'Nim', 10000, CLASSCOLORS.wizard));
+    this.raid.push(new Player(this.generatePlayerId(), 'Lou', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Player(this.generatePlayerId(), 'Rag', 10000, CLASSCOLORS.rogue));
+    this.raid.push(new Player(this.generatePlayerId(), 'Pur', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Player(this.generatePlayerId(), 'Naz', 10000, CLASSCOLORS.pal));
     
     // Add default dmg
     this.raid[0].setDmgTaken(2000);
@@ -60,9 +60,6 @@ private raid:Player[] = [];
     this.raid[9].setDmgTaken(7000);
 
     //this.doWipe();
-
-    // fail
-    //var t=setInterval(this.doDmg,1000);
     return true;
   }
 
@@ -73,22 +70,25 @@ private raid:Player[] = [];
   getRandomAlivePlayer(){
     let randomAlivePlayerResult = null;
     let raidLength = this.getRaid().length;
-    for (let i = 0 ; i < raidLength ; i++){
+    for (let i = 0 ; i < raidLength && randomAlivePlayerResult === null ; i++){
       let currentPlayer = this.getRaid()[Math.floor((Math.random() * raidLength))];
-      randomAlivePlayerResult = currentPlayer.getCurrentHealth() > 0 ? currentPlayer : null;
+      if (currentPlayer.getCurrentHealth() > 0){
+        randomAlivePlayerResult = currentPlayer;
+      }
     }
     return randomAlivePlayerResult;
+    //return randomAlivePlayerResult !== null ? randomAlivePlayerResult : (function(){throw "getRandomAlivePlayer : player is null"}());
   }
 
   isWipe(){
-    /*let result = true;
+    let result = true;
     for (let i = 0 ; i < this.getRaid().length ; i++){
-      if(this.raid[i].getCurrentHealth() >= 0){
+      if(!this.raid[i].isDead()){
         result = false;
         break;
       }
-    }*/
-    return false; //result;
+    }
+    return result;
   }
 
   doWipe(){
