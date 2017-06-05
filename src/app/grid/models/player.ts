@@ -36,4 +36,8 @@ export class Player {
     getCurrentHealth(){
         return this.baseHealth - this.dmgTaken;
     }
+
+    setDmgTaken(dmgTaken){
+        this.dmgTaken = dmgTaken;
+    }
 }

@@ -90,6 +90,10 @@ export class Hero {
     this.isFocusByBoss = isFocus;
   }
 
+  getIsPlayer(){
+    return this.isPlayer;
+  }
+
 }
 
 // NOTES : 

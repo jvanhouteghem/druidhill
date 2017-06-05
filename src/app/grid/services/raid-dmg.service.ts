@@ -25,6 +25,14 @@ constructor (
   // Generic effects
   // =======================
 
+  // update player info if target is player
+  updateIfPlayer(inputHero:Hero){
+    console.log(inputHero.getIsPlayer())
+    if(inputHero.getIsPlayer()){
+      this.playerProviderService.getPlayer().setDmgTaken(inputHero.getDmgTaken());
+    }
+  }
+
   // If inputValue > 0 then its a damage, if inputValue < 0 then its a heal
   changeHeroHealth(inputHero, inputValue:number){
     //if (inputHero != null){
@@ -48,6 +56,7 @@ constructor (
         }
       }
     //}
+      this.updateIfPlayer(inputHero);
   }
 
   changeHeroHealthOnTime(hero, inputValue, milliSecondByTick=1000, nbTick=5){
