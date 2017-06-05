@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RaidProviderService} from './services/raid-provider.service';
 import {RaidDmgService} from './services/raid-dmg.service';
 import {BossProviderService} from './services/boss-provider.service';
+import {PlayerProviderService} from './services/player-provider.service';
 import {Hero} from './models/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
@@ -18,12 +19,14 @@ export class GridComponent implements OnInit {
   constructor (
     private raidProviderService:RaidProviderService,
     private raidDmgService: RaidDmgService,
-    private bossProviderService:BossProviderService
+    private bossProviderService:BossProviderService,
+    private playerProviderService:PlayerProviderService
   ) { 'ngInject'; }
 
   ngOnInit () {
-    this.raidProviderService.generateRaid();//.then(()=>this.t=setInterval(this.doDmg,1000));
+    this.raidProviderService.generateRaid();
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
+    this.playerProviderService.setPlayer("Leasye", 2500);
   }
 
   _getRaid(){
@@ -60,6 +63,10 @@ export class GridComponent implements OnInit {
 
   rightClickOnHero(evt, heroId){
     this.raidDmgService.lifebloom(heroId);
+  }
+
+  getPlayer(){
+    return this.playerProviderService.getPlayer();
   }
 
 }

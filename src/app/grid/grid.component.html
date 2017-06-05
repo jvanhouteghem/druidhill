@@ -1,6 +1,9 @@
 <div class="smartPhoneWidth">
 
-    
+    <div>
+        {{getPlayer() | json}}
+    </div>
+
     <div class="col-xs-15" *ngFor="let n of _getRaid()" oncontextmenu="return false;">
         <div class="box" [ngClass]="{'box-border-red': n.buff.lifebloom}" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())" [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnHero($event, n.getId())">
             <div class="box-top">

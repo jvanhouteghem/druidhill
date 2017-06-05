@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import {RaidProviderService} from './grid/services/raid-provider.service';
 import {RaidDmgService} from './grid/services/raid-dmg.service';
 import {BossProviderService} from './grid/services/boss-provider.service';
+import {PlayerProviderService} from './grid/services/player-provider.service';
 
 import { AppComponent } from './app.component';
 import { GridComponent } from './grid/grid.component';
@@ -22,7 +23,7 @@ import { routes } from './app.router';
     HttpModule,
     routes
   ],
-  providers: [RaidProviderService, RaidDmgService, BossProviderService],
+  providers: [RaidProviderService, RaidDmgService, BossProviderService, PlayerProviderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

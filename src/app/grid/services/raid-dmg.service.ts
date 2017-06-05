@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {RaidProviderService} from './raid-provider.service';
+import {PlayerProviderService} from './player-provider.service';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
 import {Boss} from '../models/boss';
@@ -10,6 +11,7 @@ export class RaidDmgService {
 
 constructor (
     private raidProviderService:RaidProviderService,
+    private playerProviderService:PlayerProviderService
   ) { 
     'ngInject'; 
   }
@@ -73,10 +75,14 @@ constructor (
     } else {
       return false;
     }
-  } 
+  }
 
-  isHealingPossible(inputHero: Hero){
-    // Cannot receive heal if full
+  isEnoughMana(manaCost:number){
+    return this.playerProviderService.getPlayer().getCurrentMana() >= Math.abs(manaCost) ? true : false;
+  }
+
+  isHealingPossible(inputHero: Hero/*, manaCost:number*/){
+    // Cannot receive heal if full or if not enough mana
     if (inputHero.isDead()){
       return false;
     } else {
@@ -124,8 +130,9 @@ constructor (
   lifebloom(heroId){
 
     let hero = this._getRaid()[heroId];
+    let cost = -1000;
 
-    if (this.isHealingPossible(hero)){
+    if (this.isHealingPossible(hero) && this.isEnoughMana(cost)){
       hero.buff.setLifeBloom(true);
       this.changeHeroHealthOnTime(hero, -500, 1000, 5);
       // Interval
@@ -139,7 +146,8 @@ constructor (
             hero.buff.setLifeBloom(false);
           }
       });
-      
+      // pay cost
+      this.playerProviderService.updateMana(cost); // todo config file for spells cost
     }
   }
 
