@@ -30,6 +30,7 @@ export class GridComponent implements OnInit {
     this.raidProviderService.generateRaid();
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
     this.isLoadingSpell = false;
+    this.playerProviderService.startPlayerManaRegen();
   }
 
   _getRaid(){
@@ -52,12 +53,16 @@ export class GridComponent implements OnInit {
   leftClickOnHero(evt, heroId){ //evt.altKey // evt.ctrlKey
     let hero = this.raidDmgService._getRaid()[heroId];
     // Loader then Heal and hide loader
-    this.isLoadingSpell = true;
-    this.moveProgressBar(600).then(() => {this._changeHeroHealth(hero,-5000), this.isLoadingSpell = false});
+    // todo refacto
+    if (this.raidDmgService.isHealingPossible(hero) && this.raidDmgService.isEnoughMana(-5000)){
+      this.isLoadingSpell = true;
+      this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.isLoadingSpell = false});
+    }
   }
 
   rightClickOnHero(evt, heroId){
-    this.raidDmgService.lifebloom(heroId);
+    let hero = this.raidDmgService._getRaid()[heroId];
+    this.raidDmgService.lifebloom(hero);
   }
 
   getPlayer(){
@@ -65,6 +70,7 @@ export class GridComponent implements OnInit {
   }
 
   // Use to animate progressBar
+  // todo move away
   moveProgressBar(milliseconds:number) {
      return new Promise(function (resolve, reject) {
       var elem = document.getElementById("progressBar");   

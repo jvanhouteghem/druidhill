@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Player} from './../models/player';
+import {Observable} from 'rxjs/Rx';
+import {Subscription} from "rxjs";
 
 @Injectable()
 export class PlayerProviderService {
@@ -18,6 +20,16 @@ export class PlayerProviderService {
 
   updateMana(mana){
     this.getPlayer().updateMana(mana);
+  }
+
+  startPlayerManaRegen(){
+    // Interval
+    let subscription: Subscription;
+    let timer = Observable.timer(0,1000);
+    let count = 0;
+    subscription = timer.subscribe(t=> {
+      this.updateMana(this.getPlayer().getRegenManaPerSecond());
+    });
   }
 
 }

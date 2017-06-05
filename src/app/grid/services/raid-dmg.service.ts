@@ -135,11 +135,18 @@ constructor (
   // Positive Spells
   // =======================
 
-  lifebloom(heroId){
+  healingTouch(hero:Hero){
+    let cost = -5000; // todo config file for spells and cost
+    if (this.isHealingPossible(hero) && this.isEnoughMana(cost)){
+      // heal
+      this.changeHeroHealth(hero, -5000);
+      // pay cost
+      this.playerProviderService.updateMana(cost); // todo config file for spells cost
+    }
+  }
 
-    let hero = this._getRaid()[heroId];
-    let cost = -1000;
-
+  lifebloom(hero:Hero){
+    let cost = -1000; // todo config file for spells and cost
     if (this.isHealingPossible(hero) && this.isEnoughMana(cost)){
       hero.buff.setLifeBloom(true);
       this.changeHeroHealthOnTime(hero, -500, 1000, 5);

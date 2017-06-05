@@ -54,4 +54,8 @@ export class Player {
         this.dmgTaken = this.baseHealth;
     }
 
+    getRegenManaPerSecond(){
+        return 500;
+    }
+
 }
