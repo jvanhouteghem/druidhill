@@ -8,8 +8,8 @@ export class PlayerProviderService {
 
   constructor() { }
 
-  setPlayer(name:string, mana:number){
-    this.player = new Player(name, mana);
+  setPlayer(name:string, baseHealth:number, baseMana:number){
+    this.player = new Player(name, baseHealth, baseMana);
   }
 
   getPlayer(){

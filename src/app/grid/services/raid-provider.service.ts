@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Hero} from '../models/hero';
+import {PlayerProviderService} from './player-provider.service';
 
 export const CLASSCOLORS = {
   hunt: "#839b55",
@@ -17,7 +18,7 @@ export class RaidProviderService {
 private raid:Hero[] = [];
   private countHero: number;
 
-  constructor () { 
+  constructor (private playerProviderService:PlayerProviderService) { 
     'ngInject';
     this.countHero = -1; 
   }
@@ -28,9 +29,13 @@ private raid:Hero[] = [];
     return this.countHero;
   }
 
+  _getPlayer(){
+    return this.playerProviderService.getPlayer();
+  }
+
   generateRaid(){
+    this.raid.push(new Hero(this.generateHeroId(), this._getPlayer().getName(), this._getPlayer().getCurrentHealth(), CLASSCOLORS.druid, false, true));
     this.raid.push(new Hero(this.generateHeroId(), 'Max', 15000, CLASSCOLORS.hunt));
-    this.raid.push(new Hero(this.generateHeroId(), 'Lea', 22000, CLASSCOLORS.rogue));
     this.raid.push(new Hero(this.generateHeroId(), 'Ark', 30000, CLASSCOLORS.war, true));
     this.raid.push(new Hero(this.generateHeroId(), 'Niz', 10000, CLASSCOLORS.pal));
     this.raid.push(new Hero(this.generateHeroId(), 'Lupo', 10000, CLASSCOLORS.priest));

@@ -2,10 +2,14 @@ export class Player {
 
     private name:string;
     private baseMana:number;
-    private currentMana:number
+    private currentMana:number;
+    private baseHealth:number;
+    private dmgTaken:number;
 
-    constructor(name:string, baseMana:number){
+    constructor(name:string, baseHealth:number, baseMana:number){
         this.name = name;
+        this.baseHealth = baseHealth;
+        this.dmgTaken = 0;
         this.baseMana = baseMana;
         this.currentMana = this.baseMana;
     }
@@ -25,4 +29,11 @@ export class Player {
         return this.currentMana;
     }
 
+    getName(){
+        return this.name;
+    }
+
+    getCurrentHealth(){
+        return this.baseHealth - this.dmgTaken;
+    }
 }

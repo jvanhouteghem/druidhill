@@ -24,9 +24,9 @@ export class GridComponent implements OnInit {
   ) { 'ngInject'; }
 
   ngOnInit () {
+    this.playerProviderService.setPlayer("Lea", 20000, 15500);
     this.raidProviderService.generateRaid();
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
-    this.playerProviderService.setPlayer("Leasye", 2500);
   }
 
   _getRaid(){

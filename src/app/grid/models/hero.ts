@@ -9,6 +9,7 @@ export class Hero {
   public buff:Buff;
   private classColor:string;
   private isTank:boolean; // boss focus tank at first
+  private isPlayer:boolean
 
   private isFocusByBoss;
 
@@ -16,7 +17,7 @@ export class Hero {
   //public isDead:boolean;
 
 
-  constructor(id:number, name:String, baseHealth:number, classColor:string, isTank=false){
+  constructor(id:number, name:String, baseHealth:number, classColor:string, isTank=false, isPlayer=false){
       this.id = id;
       this.name = name;
       this.baseHealth = baseHealth;
@@ -26,6 +27,7 @@ export class Hero {
       this.classColor = classColor;
       this.isTank = isTank;
       this.isFocusByBoss = false;
+      this.isPlayer = isPlayer;
   }
 
   getCurrentHealth(){
