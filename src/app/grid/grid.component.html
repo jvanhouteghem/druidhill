@@ -1,5 +1,15 @@
 <div class="smartPhoneWidth">
 
+    <!-- progress bar -->
+    <div>
+        <div [hidden]="isLoadingSpell==false" id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <div [hidden]="!isLoadingSpell==false" id="progressBarContainer">
+            &#8203;
+        </div>
+    </div>
+
     <div>
         {{getPlayer() | json}}
         IsDead : {{getPlayer().isDead()}}

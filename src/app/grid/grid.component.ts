@@ -15,6 +15,8 @@ import {Subscription} from "rxjs";
 })
 export class GridComponent implements OnInit {
 
+    private isLoadingSpell;
+
 // Only for event and display
   constructor (
     private raidProviderService:RaidProviderService,
@@ -27,6 +29,7 @@ export class GridComponent implements OnInit {
     this.playerProviderService.setPlayer("Lea", 20000, 15500);
     this.raidProviderService.generateRaid();
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
+    this.isLoadingSpell = false;
   }
 
   _getRaid(){
@@ -46,19 +49,11 @@ export class GridComponent implements OnInit {
     return this.raidDmgService._getRaid()[heroId].getCurrentHealthInPercent();
   }
 
-  leftClickOnHero(evt, heroId){
+  leftClickOnHero(evt, heroId){ //evt.altKey // evt.ctrlKey
     let hero = this.raidDmgService._getRaid()[heroId];
-    /*if (evt.altKey == true){
-      console.log("left + alt");
-      this.raidDmgService.lifebloom(heroId);
-    }       
-    else if (evt.ctrlKey == true){
-      this.raidDmgService.changeHeroHealthOnTime(hero, 1000);
-      console.log("left + ctrl");
-    }
-    else {*/
-      this._changeHeroHealth(hero,-1000);
-    //}
+    // Loader then Heal and hide loader
+    this.isLoadingSpell = true;
+    this.moveProgressBar(600).then(() => {this._changeHeroHealth(hero,-5000), this.isLoadingSpell = false});
   }
 
   rightClickOnHero(evt, heroId){
@@ -67,6 +62,32 @@ export class GridComponent implements OnInit {
 
   getPlayer(){
     return this.playerProviderService.getPlayer();
+  }
+
+  // Use to animate progressBar
+  moveProgressBar(milliseconds:number) {
+     return new Promise(function (resolve, reject) {
+      var elem = document.getElementById("progressBar");   
+      var width = 10;
+      var id = setInterval(frame, milliseconds/100);
+      function frame() {
+        if (width >= 100) {
+          clearInterval(id);
+        } else {
+          width++; 
+          elem.style.width = width + '%'; 
+          //elem.innerHTML = width * 1  + '%';
+        }
+      }
+      setTimeout(resolve, milliseconds); // (A)
+     });
+  }
+  
+  // promise delay if animated progress bar
+  delay(ms) {
+      return new Promise(function (resolve, reject) {
+          setTimeout(resolve, ms); // (A)
+      });
   }
 
 }
