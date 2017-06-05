@@ -2,6 +2,7 @@
 
     <div>
         {{getPlayer() | json}}
+        IsDead : {{getPlayer().isDead()}}
     </div>
 
     <div class="col-xs-15" *ngFor="let n of _getRaid()" oncontextmenu="return false;">

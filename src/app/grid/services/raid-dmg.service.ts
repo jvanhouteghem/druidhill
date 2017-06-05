@@ -27,7 +27,6 @@ constructor (
 
   // update player info if target is player
   updateIfPlayer(inputHero:Hero){
-    console.log(inputHero.getIsPlayer())
     if(inputHero.getIsPlayer()){
       this.playerProviderService.getPlayer().setDmgTaken(inputHero.getDmgTaken());
     }

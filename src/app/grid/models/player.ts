@@ -1,3 +1,4 @@
+// todo inheritance
 export class Player {
 
     private name:string;
@@ -40,4 +41,17 @@ export class Player {
     setDmgTaken(dmgTaken){
         this.dmgTaken = dmgTaken;
     }
+
+    isDead(){
+        if ((this.getCurrentHealth() <= 0)){
+        return true;
+        } else {
+        return false;
+        }
+    }
+
+    kill(){
+        this.dmgTaken = this.baseHealth;
+    }
+
 }
