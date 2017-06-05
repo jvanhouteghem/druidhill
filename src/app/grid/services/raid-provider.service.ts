@@ -64,7 +64,7 @@ private raid:Hero[] = [];
     this.raid[7].setDmgTaken(5000);
     this.raid[9].setDmgTaken(7000);
 
-    this.doWipe();
+    //this.doWipe();
     return true;
   }
 
