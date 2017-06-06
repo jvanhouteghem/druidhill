@@ -31,6 +31,9 @@ export class GridComponent implements OnInit {
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
     this.isLoadingSpell = false;
     this.playerProviderService.startPlayerManaRegen();
+
+    this.initializeHealthBar();
+    this.initializeManaBar();
   }
 
   _getRaid(){
@@ -85,10 +88,20 @@ export class GridComponent implements OnInit {
           //elem.innerHTML = width * 1  + '%';
         }
       }
-      setTimeout(resolve, milliseconds); // (A)
+      setTimeout(resolve, milliseconds); 
      });
   }
-  
+
+  initializeHealthBar(){
+    var elem = document.getElementById("healthBar");
+    elem.style.width = '100%';
+  }
+
+  initializeManaBar(){
+    var elem = document.getElementById("manaBar");
+    elem.style.width = '100%';
+  }
+
   // promise delay if animated progress bar
   delay(ms) {
       return new Promise(function (resolve, reject) {

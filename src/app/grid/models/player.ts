@@ -26,8 +26,24 @@ export class Player {
         }
     }
 
+    getBaseHealth(){
+        return this.baseHealth;
+    }
+
     getCurrentMana(){
         return this.currentMana;
+    }
+
+    getBaseMana(){
+        return this.baseMana;
+    }
+
+    getCurrentHealthInPercent(){
+        return ((this.baseHealth - this.dmgTaken) / this.baseHealth) * 100;
+    }
+
+    getCurrentManaInPercent(){
+        return this.currentMana / this.baseMana * 100;
     }
 
     getName(){

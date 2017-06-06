@@ -1,5 +1,14 @@
 <div class="smartPhoneWidth">
 
+    <!-- todo moove new component -->
+    <!-- health bar -->
+    <div id="progressBarContainer">
+        <div id="healthBar">{{getPlayer().getCurrentHealth()}}/{{getPlayer().getBaseHealth()}}</div>
+    </div>
+    <!-- mana bar -->
+    <div id="progressBarContainer">
+        <div id="manaBar">{{getPlayer().getCurrentMana()}}/{{getPlayer().getBaseMana()}}</div>
+    </div>  
     <!-- progress bar -->
     <div>
         <div [hidden]="isLoadingSpell==false" id="progressBarContainer">
@@ -10,10 +19,12 @@
         </div>
     </div>
 
+    <!--
     <div>
         {{getPlayer() | json}}
         IsDead : {{getPlayer().isDead()}}
     </div>
+    -->
 
     <div class="col-xs-15" *ngFor="let n of _getRaid()" oncontextmenu="return false;">
         <div class="box" [ngClass]="{'box-border-red': n.buff.lifebloom}" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())" [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnHero($event, n.getId())">
@@ -39,7 +50,9 @@
         </div>
     </div>
 
+    <!--
     {{_getRaid() | slice:0:5 | json}}
+    -->
 
 </div>
 

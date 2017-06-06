@@ -4,9 +4,28 @@
 #progressBarContainer {
   width: 100%;
   background-color: #ddd;
+  margin: 5px 0px;
 }
 
 #progressBar {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+  text-align: center;
+  line-height: 15px;
+  color: white;
+}
+
+#healthBar {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+  text-align: center;
+  line-height: 15px;
+  color: white;
+}
+
+#manaBar {
   width: 0%;
   height: 15px;
   background-color: #4CAF50;

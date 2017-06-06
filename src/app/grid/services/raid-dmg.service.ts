@@ -29,6 +29,7 @@ constructor (
   updateIfPlayer(inputHero:Hero){
     if(inputHero.getIsPlayer()){
       this.playerProviderService.getPlayer().setDmgTaken(inputHero.getDmgTaken());
+      this.updateHealthBar(inputHero.getCurrentHealthInPercent());
     }
   }
 
@@ -142,6 +143,7 @@ constructor (
       this.changeHeroHealth(hero, -5000);
       // pay cost
       this.playerProviderService.updateMana(cost); // todo config file for spells cost
+      this.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
     }
   }
 
@@ -163,6 +165,7 @@ constructor (
       });
       // pay cost
       this.playerProviderService.updateMana(cost); // todo config file for spells cost
+      this.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
     }
   }
 
@@ -221,6 +224,17 @@ constructor (
     for (let i = 0 ; i < this._getRaid().length ; i++){
       this._getRaid()[i].setIsFocusByBoss(false);
     }
+  }
+
+  // todo move
+  updateHealthBar(healthInPercent){
+    var elem = document.getElementById("healthBar");
+    elem.style.width = healthInPercent + '%';
+  }
+
+  updateManaBar(manaInPercent){
+    var elem = document.getElementById("manaBar");
+    elem.style.width = manaInPercent + '%';
   }
 
 }

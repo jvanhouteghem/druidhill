@@ -29,7 +29,13 @@ export class PlayerProviderService {
     let count = 0;
     subscription = timer.subscribe(t=> {
       this.updateMana(this.getPlayer().getRegenManaPerSecond());
+      this.updateManaBar(this.getPlayer().getCurrentManaInPercent());
     });
+  }
+
+  updateManaBar(manaInPercent){
+    var elem = document.getElementById("manaBar");
+    elem.style.width = manaInPercent + '%';
   }
 
 }
