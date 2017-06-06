@@ -2,7 +2,7 @@
 
 export class Character {
 
-    private name: String;
+    private name: string;
     private baseHealth: number;
     private dmgTaken: number;
 
@@ -12,7 +12,7 @@ export class Character {
         this.dmgTaken = 0;
     }
 
-    getName(): String {
+    getName(): string {
         return this.name;
     }
 
