@@ -19,7 +19,7 @@
 #healthBar {
   width: 0%;
   height: 15px;
-  background-color: #4CAF50;
+  background-color: #96806d;
   text-align: center;
   line-height: 15px;
   color: white;
@@ -28,7 +28,7 @@
 #manaBar {
   width: 0%;
   height: 15px;
-  background-color: #4CAF50;
+  background-color: #4c90af;
   text-align: center;
   line-height: 15px;
   color: white;
