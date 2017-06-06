@@ -34,6 +34,22 @@
   color: white;
 }
 
+#heathTextBar {
+    z-index: 100;
+    position: absolute;
+    color: white;
+    left: 115px;
+    top: 7px;
+}
+
+#manaTextBar {
+    z-index: 100;
+    position: absolute;
+    color: white;
+    left: 115px;
+    top: 27px;
+}
+
 /*----------------------------------------
 //  grid
 //----------------------------------------*/
