@@ -1,61 +1,59 @@
 <div class="smartPhoneWidth" oncontextmenu="return false;">
-
-    <!-- todo moove new component -->
-    <!-- health bar -->
-    <div id="progressBarContainer">
-        <div id="heathTextBar">{{getPlayer().getCurrentHealth()}}/{{getPlayer().getBaseHealth()}}</div>
-        <div id="healthBar"></div>
+    <div id="topBars">
+            <!-- health bar -->
+            <div id="progressBarContainer">
+                <div id="heathTextBar">{{getPlayer().getCurrentHealth()}}/{{getPlayer().getBaseHealth()}}</div>
+                <div id="healthBar"></div>
+            </div>
+            <!-- mana bar -->
+            <div id="progressBarContainer">
+                <div id="manaTextBar">{{getPlayer().getCurrentMana()}}/{{getPlayer().getBaseMana()}}</div>
+                <div id="manaBar"></div>
+            </div>
+            <!-- progress bar -->
+            <div>
+                <div [hidden]="isLoadingSpell==false" id="progressBarContainer">
+                    <div id="progressBar"></div>
+                </div>
+                <div [hidden]="!isLoadingSpell==false" id="progressBarContainer">
+                    &#8203;
+                </div>
+            </div>
     </div>
-    <!-- mana bar -->
-    <div id="progressBarContainer">
-        <div id="manaTextBar">{{getPlayer().getCurrentMana()}}/{{getPlayer().getBaseMana()}}</div>
-        <div id="manaBar"></div>
-    </div>  
-    <!-- progress bar -->
-    <div>
-        <div [hidden]="isLoadingSpell==false" id="progressBarContainer">
-            <div id="progressBar"></div>
-        </div>
-        <div [hidden]="!isLoadingSpell==false" id="progressBarContainer">
-            &#8203;
-        </div>
-    </div>
-
     <!--
-    <div>
-        {{getPlayer() | json}}
-        IsDead : {{getPlayer().isDead()}}
-    </div>
-    -->
+        <div>
+            {{getPlayer() | json}}
+            IsDead : {{getPlayer().isDead()}}
+        </div>
+        -->
 
     <div class="col-xs-15" *ngFor="let n of _getRaid()">
-        <div class="box" [ngClass]="{'box-border-red': n.buff.lifebloom}" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())" [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnHero($event, n.getId())">
+        <div class="box" [ngClass]="{'box-border-red': n.buff.lifebloom}" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())"
+            [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnHero($event, n.getId())">
             <div class="box-top">
                 <div class="box-square-left" [ngClass]="{'box-square-red' : n.isFocusByBoss && !n.isDead()}">&#8203;</div>
-                <div class="box-square-center">&#8203;</div>  
+                <div class="box-square-center">&#8203;</div>
                 <div class="box-square-right">&#8203;</div>
             </div>
 
             <div class="box-middle noselect">
                 <div [hidden]="n.isDead()">{{n.dmgTaken == 0 ? '&#8203;' : -n.dmgTaken}}</div>
                 <div [hidden]="n.isDead()">{{n.name}}</div>
-                
+
                 <div [hidden]="!n.isDead()">&#8203;</div>
                 <div [hidden]="!n.isDead()">Dead</div>
             </div>
 
             <div class="box-bottom">
                 <div class="box-square-left">&#8203;</div>
-                <div class="box-square-center">&#8203;</div>  
+                <div class="box-square-center">&#8203;</div>
                 <div class="box-square-right">&#8203;</div>
             </div>
         </div>
     </div>
 
-    <!--
+<!--
     {{_getRaid() | slice:0:5 | json}}
     -->
 
 </div>
-
-
