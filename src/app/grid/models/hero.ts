@@ -9,7 +9,7 @@ export class Hero {
   public buff:Buff;
   private classColor:string;
   private isTank:boolean; // boss focus tank at first
-  private isPlayer:boolean
+  private isPlayer:boolean;
 
   private isFocusByBoss;
 

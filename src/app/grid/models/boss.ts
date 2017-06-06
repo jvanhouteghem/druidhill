@@ -1,30 +1,16 @@
-export class Boss {
+import {Character} from './character';
 
-    private name: string;
+export class Boss extends Character {
+
     private difficulty: string;
-    private health: number;
-    //private attacks: Attacks[];
 
-    constructor(name:string, difficulty:string, health:number) { 
-        this.name = name;
+    constructor(name:string, baseHealth:number, difficulty:string) {
+        super(name, baseHealth);
         this.difficulty = difficulty;
-        this.health = health;
-    }
-
-    getName(){
-        return this.name;
     }
 
     getDifficulty(){
         return this.difficulty;
-    }
-
-    getHealth(){
-        return this.health;
-    }
-
-    isDead(){
-        return this.health <= 0 ? true : false;
     }
 
 }
