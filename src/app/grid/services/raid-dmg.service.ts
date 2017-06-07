@@ -20,11 +20,6 @@ constructor (
     'ngInject'; 
   }
 
-
-  _getRaid(){
-    return this.raidProviderService.getRaid();
-  }
-
   // =======================
   // Generic effects
   // =======================
@@ -82,12 +77,7 @@ constructor (
   // =======================
 
   isHeal(inputValue){
-    // Todo throw if null
-    if (inputValue < 0){
-      return true;
-    } else {
-      return false;
-    }
+    return inputValue < 0 ? true : false;
   }
 
 
@@ -125,8 +115,6 @@ constructor (
       });
       // pay cost
       this.playerProviderService.updateBothManaAndBar(cost);
-      //this.playerProviderService.updateMana(cost); // todo config file for spells cost
-      //this.playerProviderService.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
     }
   }
 
@@ -184,8 +172,8 @@ constructor (
   // todo moove 
   // reset focus
   resetBossFocus(){
-    for (let i = 0 ; i < this._getRaid().length ; i++){
-      this._getRaid()[i].setIsFocusByBoss(false);
+    for (let i = 0 ; i < this.raidProviderService.getRaid().length ; i++){
+      this.raidProviderService.getRaid()[i].setIsFocusByBoss(false);
     }
   }
 

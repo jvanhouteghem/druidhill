@@ -41,7 +41,7 @@ export class GridComponent implements OnInit {
   }
 
   getCSSGradient(heroId:number){
-    let hero = this.raidDmgService._getRaid()[heroId];
+    let hero = this.raidProviderService.getRaid()[heroId];
     return "linear-gradient(0deg, " + hero.getClassColor() + " " + this._getHeroHealthInPercent(hero.getId()) + "%, #4a4a4a 0%)"; // Warning, don't add ";" in string // life / background
   }
 
@@ -50,11 +50,11 @@ export class GridComponent implements OnInit {
   }
 
   _getHeroHealthInPercent(heroId:number){
-    return this.raidDmgService._getRaid()[heroId].getCurrentHealthInPercent();
+    return this.raidProviderService.getRaid()[heroId].getCurrentHealthInPercent();
   }
 
   leftClickOnHero(evt, heroId){ //evt.altKey // evt.ctrlKey
-    let hero = this.raidDmgService._getRaid()[heroId];
+    let hero = this.raidProviderService.getRaid()[heroId];
     // Loader then Heal and hide loader
     // todo refacto
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
@@ -64,7 +64,7 @@ export class GridComponent implements OnInit {
   }
 
   rightClickOnHero(evt, heroId){
-    let hero = this.raidDmgService._getRaid()[heroId];
+    let hero = this.raidProviderService.getRaid()[heroId];
     this.raidDmgService.lifebloom(hero);
   }
 
