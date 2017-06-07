@@ -55,17 +55,17 @@ export class GridComponent implements OnInit {
 
   leftClickOnHero(evt, heroId){ //evt.altKey // evt.ctrlKey
     let hero = this.raidProviderService.getRaid()[heroId];
+    this.raidDmgService.lifebloom(hero);
+  }
+
+  rightClickOnHero(evt, heroId){
+    let hero = this.raidProviderService.getRaid()[heroId];
     // Loader then Heal and hide loader
     // todo refacto
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
       this.isLoadingSpell = true;
       this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.isLoadingSpell = false});
     }
-  }
-
-  rightClickOnHero(evt, heroId){
-    let hero = this.raidProviderService.getRaid()[heroId];
-    this.raidDmgService.lifebloom(hero);
   }
 
   getPlayer(){
