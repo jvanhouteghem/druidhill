@@ -3,8 +3,12 @@ import {RaidProviderService} from './raid-provider.service';
 import {PlayerProviderService} from './player-provider.service';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
-import {Boss} from '../models/boss';
-import {Hero} from '../models/hero';
+import {Boss} from '../models/characters/boss';
+import {Hero} from '../models/characters/hero';
+
+// Only for dmg or heal 
+// move logic separatly
+
 
 @Injectable()
 export class RaidDmgService {
@@ -26,37 +30,37 @@ constructor (
   // =======================
 
   // update player info if target is player
-  updateIfPlayer(inputHero:Hero){
-    if(inputHero.getIsPlayer()){
-      this.playerProviderService.getPlayer().setDmgTaken(inputHero.getDmgTaken());
-      this.updateHealthBar(inputHero.getCurrentHealthInPercent());
+  updateIfPlayer(hero:Hero){
+    if(hero.getIsPlayer()){
+      this.playerProviderService.getPlayer().setDmgTaken(hero.getDmgTaken());
+      this.playerProviderService.updateHealthBar(hero.getCurrentHealthInPercent());
     }
   }
 
   // If inputValue > 0 then its a damage, if inputValue < 0 then its a heal
-  changeHeroHealth(inputHero, inputValue:number){
+  changeHeroHealth(hero, inputValue:number){
     //if (inputHero != null){
       // Damage
-      if (!this.isHeal(inputValue) && this.isDmgPossible(inputHero)){
-        inputHero.setDmgTaken(inputHero.getDmgTaken() + inputValue);
+      if (!this.isHeal(inputValue) && hero.isDmgPossible(hero)){
+        hero.setDmgTaken(hero.getDmgTaken() + inputValue);
         // Lethal
-        if (this.isLethalDmg(inputHero, inputValue)){
-          inputHero.kill();
+        if (hero.isLethalDmg(hero, inputValue)){
+          hero.kill();
         }
       }
       // Heal
-      else if (this.isHeal(inputValue) && this.isHealingPossible(inputHero) && !this.isFullLife(inputHero)){
+      else if (this.isHeal(inputValue) && hero.isHealingPossible(hero) && !hero.isFullLife(hero)){
         // Receive part of heal (if current life + heal > baseHealth then set currentHealth to baseHealth)
-        if (this.isHealExceedBaseHealth(inputHero, inputValue)){
-          inputHero.setDmgTaken(0);
+        if (hero.isHealExceedBaseHealth(inputValue)){
+          hero.setDmgTaken(0);
         } 
         // Else receive full heal
         else {
-          inputHero.setDmgTaken(inputHero.getDmgTaken() + inputValue);
+          hero.setDmgTaken(hero.getDmgTaken() + inputValue);
         }
       }
     //}
-      this.updateIfPlayer(inputHero);
+      this.updateIfPlayer(hero);
   }
 
   changeHeroHealthOnTime(hero, inputValue, milliSecondByTick=1000, nbTick=5){
@@ -86,51 +90,7 @@ constructor (
     }
   }
 
-  isEnoughMana(manaCost:number){
-    return this.playerProviderService.getPlayer().getCurrentMana() >= Math.abs(manaCost) ? true : false;
-  }
 
-  isHealingPossible(inputHero: Hero/*, manaCost:number*/){
-    // Cannot receive heal if full or if not enough mana
-    if (inputHero.isDead()){
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  isDmgPossible(inputHero: Hero){
-    // Cannot receive anymore damage if dead
-    if (inputHero.isDead()){
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  isFullLife(inputHero: Hero){
-    if ((inputHero.getCurrentHealth() == inputHero.getBaseHealth())){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  isHealExceedBaseHealth(hero: Hero, inputValue){
-    if (inputValue > hero.getDmgTaken()){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  isLethalDmg(hero: Hero, inputValue){
-    if (hero.getCurrentHealth() - inputValue <= 0){
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   // =======================
   // Positive Spells
@@ -138,18 +98,18 @@ constructor (
 
   healingTouch(hero:Hero){
     let cost = -5000; // todo config file for spells and cost
-    if (this.isHealingPossible(hero) && this.isEnoughMana(cost)){
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost)){
       // heal
       this.changeHeroHealth(hero, -5000);
       // pay cost
       this.playerProviderService.updateMana(cost); // todo config file for spells cost
-      this.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
+      this.playerProviderService.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
     }
   }
 
   lifebloom(hero:Hero){
     let cost = -1000; // todo config file for spells and cost
-    if (this.isHealingPossible(hero) && this.isEnoughMana(cost)){
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost)){
       hero.buff.setLifeBloom(true);
       this.changeHeroHealthOnTime(hero, -500, 1000, 5);
       // Interval
@@ -164,8 +124,9 @@ constructor (
           }
       });
       // pay cost
-      this.playerProviderService.updateMana(cost); // todo config file for spells cost
-      this.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
+      this.playerProviderService.updateBothManaAndBar(cost);
+      //this.playerProviderService.updateMana(cost); // todo config file for spells cost
+      //this.playerProviderService.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
     }
   }
 
@@ -213,28 +174,19 @@ constructor (
     });
   }
 
+  // todo moove 
   // Only one focus by time
   setFocus(hero:Hero){
     hero.setIsFocusByBoss(true);
     hero.setTankValue(true); // If tank is dead then the next target become the tank even if she is weak
   }
 
+  // todo moove 
   // reset focus
   resetBossFocus(){
     for (let i = 0 ; i < this._getRaid().length ; i++){
       this._getRaid()[i].setIsFocusByBoss(false);
     }
-  }
-
-  // todo move
-  updateHealthBar(healthInPercent){
-    var elem = document.getElementById("healthBar");
-    elem.style.width = healthInPercent + '%';
-  }
-
-  updateManaBar(manaInPercent){
-    var elem = document.getElementById("manaBar");
-    elem.style.width = manaInPercent + '%';
   }
 
 }

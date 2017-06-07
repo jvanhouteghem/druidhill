@@ -1,4 +1,4 @@
-import { Buff } from './buff';
+import { Buff } from './../buff';
 import { Character } from './character';
 
 export class Hero extends Character {
@@ -50,6 +50,50 @@ export class Hero extends Character {
 
   getIsPlayer() {
     return this.isPlayer;
+  }
+
+  isHealingPossible(){
+    // Cannot receive heal if full or if not enough mana
+    if (this.isDead()){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isDmgPossible(){
+    // Cannot receive anymore damage if dead
+    if (this.isDead()){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isFullLife(){
+    if ((this.getCurrentHealth() === this.getBaseHealth())){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // move inside char
+  isHealExceedBaseHealth(inputValue){
+    if (inputValue > this.getDmgTaken()){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // move inside char
+  isLethalDmg(inputValue){
+    if (this.getCurrentHealth() - inputValue <= 0){
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

@@ -3,7 +3,7 @@ import {RaidProviderService} from './services/raid-provider.service';
 import {RaidDmgService} from './services/raid-dmg.service';
 import {BossProviderService} from './services/boss-provider.service';
 import {PlayerProviderService} from './services/player-provider.service';
-import {Hero} from './models/hero';
+import {Hero} from './models/characters/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
@@ -57,7 +57,7 @@ export class GridComponent implements OnInit {
     let hero = this.raidDmgService._getRaid()[heroId];
     // Loader then Heal and hide loader
     // todo refacto
-    if (this.raidDmgService.isHealingPossible(hero) && this.raidDmgService.isEnoughMana(-5000)){
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
       this.isLoadingSpell = true;
       this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.isLoadingSpell = false});
     }

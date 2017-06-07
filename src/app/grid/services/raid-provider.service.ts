@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Hero} from '../models/hero';
+import {Hero} from '../models/characters/hero';
 import {PlayerProviderService} from './player-provider.service';
 
 export const CLASSCOLORS = {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Player} from './../models/player';
+import {Player} from './../models/characters/player';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
 
@@ -18,10 +18,6 @@ export class PlayerProviderService {
     return this.player;
   }
 
-  updateMana(mana){
-    this.getPlayer().updateMana(mana);
-  }
-
   startPlayerManaRegen(){
     // Interval
     let subscription: Subscription;
@@ -33,9 +29,23 @@ export class PlayerProviderService {
     });
   }
 
+  updateBothManaAndBar(mana){
+    this.updateMana(mana);
+    this.updateManaBar(this.getPlayer().getCurrentManaInPercent());
+  }
+
+  updateMana(mana){
+    this.getPlayer().updateMana(mana);
+  }
+
   updateManaBar(manaInPercent){
     var elem = document.getElementById("manaBar");
     elem.style.width = manaInPercent + '%';
+  }
+
+  updateHealthBar(healthInPercent){
+    var elem = document.getElementById("healthBar");
+    elem.style.width = healthInPercent + '%';
   }
 
 }

@@ -46,4 +46,9 @@ export class Player extends Character {
         return 500;
     }
 
+
+    isEnoughMana(manaCost:number){
+        return this.getCurrentMana() >= Math.abs(manaCost) ? true : false;
+    }
+
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
-import {Boss} from '../models/boss';
+import {Boss} from '../models/characters/boss';
 
 @Injectable()
 export class BossProviderService {

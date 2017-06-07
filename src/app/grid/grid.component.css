@@ -6,22 +6,6 @@
     /*text-align:center;*/
 }
 
-/*#topbarsLeft {
-    float: left;
-    width: 30%;
-    background:grey;
-    height: 63px;
-}
-
-#topBarsMiddle {
-    width: 160px;
-    float: left;
-}
-
-#topBarsRight {
-    float: left;
-}*/
-
 #progressBarContainer {
   width: 100%;
   background-color: #ddd;
