@@ -7,7 +7,7 @@ export class Buff {
         this.lifebloom = false;
     }
 
-    setLifeBloom(inputValue:boolean){
+    toggleLifeBloom(inputValue:boolean){
         // Only one lifebloom per time
         if(inputValue == true){
             if (this.lifebloom == false){

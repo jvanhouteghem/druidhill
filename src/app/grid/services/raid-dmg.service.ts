@@ -13,11 +13,53 @@ import {Hero} from '../models/characters/hero';
 @Injectable()
 export class RaidDmgService {
 
+
+// id
+// name
+// cost : mana cost (must be negative)
+// amount : the amount of heal
+// nbStack : max number of similar heal at the same time on the target
+// initialDelay : start after the initialDelay
+// period : the heal occurs every x seconds
+// duration : the duration of the heal
+// castingTime : delay heal
+private healJson = {
+  healList: [
+    {
+      id: "0001",
+      name: "Lifebloom",
+      cost: -1000,
+      amount: -500,
+      nbStack: 1,
+      time: {
+        initialDelay: 1000,
+        castingTime: 0,
+        period: 1000,
+        duration: 8000
+      },
+      target: "single"
+    },
+    {
+      id: "0002",
+      name: "HealingTouch",
+      cost: -3000,
+      amount: -5000,
+      time: {
+        initialDelay: 0,
+        castingTime: 5000,
+        period: 0,
+        duration: 0
+      },
+      target: "single"
+    }
+  ]
+}
+
 constructor (
     private raidProviderService:RaidProviderService,
     private playerProviderService:PlayerProviderService
   ) { 
-    'ngInject'; 
+    'ngInject';
   }
 
   // =======================
@@ -58,18 +100,21 @@ constructor (
       this.updateIfPlayer(hero);
   }
 
-  changeHeroHealthOnTime(hero, inputValue, milliSecondByTick=1000, nbTick=5){
-    // Interval
-    let subscription: Subscription;
-    let timer = Observable.timer(1000,milliSecondByTick);
-    let count = 0;
-    subscription = timer.subscribe(t=> {
-        count++;
-        this.changeHeroHealth(hero,inputValue);
-        if (count >= nbTick){
-          subscription.unsubscribe();
-        }
-    });
+  changeHeroHealthOnTime(hero, inputValue, milliSecondByTick=1000, nbTick=5) {
+    let focus = this;
+     return new Promise(function (resolve, reject) {
+      let subscription: Subscription;
+          let timer = Observable.timer(1000,milliSecondByTick);
+          let count = 0;
+          subscription = timer.subscribe(t=> {
+              count++;
+              focus.changeHeroHealth(hero,inputValue);
+              if (count >= nbTick){
+                subscription.unsubscribe();
+                resolve(true);
+              }
+         });
+     });
   }
 
   // =======================
@@ -80,7 +125,19 @@ constructor (
     return inputValue < 0 ? true : false;
   }
 
+  // =======================
+  // NEW HEAL
+  // =======================
 
+  /*getHealById(healId){
+    for (let i = 0 ; i < this.healJson.healList.length ; i++){
+      if (this.healJson.healList[i].id === healId){
+        return this.healJson.healList[i];
+      } else {
+        throw "No heal for id : " + healId; 
+      }
+    }
+  }*/
 
   // =======================
   // Positive Spells
@@ -97,23 +154,13 @@ constructor (
     }
   }
 
+  // todo fix border if delay between two lb
+  // todo heal eclosion
   lifebloom(hero:Hero){
-    let cost = -1000; // todo config file for spells and cost
+    let cost = -1000;
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost)){
-      hero.buff.setLifeBloom(true);
-      this.changeHeroHealthOnTime(hero, -500, 1000, 5);
-      // Interval
-      let subscription: Subscription;
-      let timer = Observable.timer(1000,1000);
-      let count = 0;
-      subscription = timer.subscribe(t=> {
-          count++;
-          if (count >= 5){
-            subscription.unsubscribe();
-            hero.buff.setLifeBloom(false);
-          }
-      });
-      // pay cost
+      hero.buff.toggleLifeBloom(true);
+      this.changeHeroHealthOnTime(hero, -500, 1000, 5).then(res => res === true ? hero.buff.toggleLifeBloom(false) : "");
       this.playerProviderService.updateBothManaAndBar(cost);
     }
   }
