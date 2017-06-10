@@ -1,21 +1,19 @@
 // todo remove
 export class Buff {
 
-    private lifebloom:boolean;
+    private lifebloom:number;
 
     constructor(){
-        this.lifebloom = false;
+        this.lifebloom = 0;
     }
 
     toggleLifeBloom(inputValue:boolean){
         // Only one lifebloom per time
         if(inputValue == true){
-            if (this.lifebloom == false){
-                this.lifebloom = true;
-            }
+            this.lifebloom++;
         } 
         else {
-            this.lifebloom = false;
+            this.lifebloom--;
         }
     }
 }
