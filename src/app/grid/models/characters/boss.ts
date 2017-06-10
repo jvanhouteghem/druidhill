@@ -1,4 +1,5 @@
 import {Character} from './character';
+import {Hero} from './hero';
 
 export class Boss extends Character {
 
@@ -12,5 +13,10 @@ export class Boss extends Character {
     getDifficulty(){
         return this.difficulty;
     }
+
+  setFocus(hero:Hero){
+    hero.setIsFocusByBoss(true);
+    hero.setTankValue(true); // If tank is dead then the next target become the tank even if she is weak
+  }
 
 }

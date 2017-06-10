@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import {RaidProviderService} from './raid-provider.service';
 import {PlayerProviderService} from './player-provider.service';
+import {BossProviderService} from './boss-provider.service';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
 import {Boss} from '../models/characters/boss';
 import {Hero} from '../models/characters/hero';
+	
+import * as moment from 'moment/moment';
 
 // Only for dmg or heal 
 // move logic separatly
@@ -57,7 +60,8 @@ private healJson = {
 
 constructor (
     private raidProviderService:RaidProviderService,
-    private playerProviderService:PlayerProviderService
+    private playerProviderService:PlayerProviderService,
+    private bossProviderService:BossProviderService
   ) { 
     'ngInject';
   }
@@ -158,7 +162,9 @@ constructor (
   // todo heal eclosion
   lifebloom(hero:Hero){
     let cost = -1000;
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost)){
+    // add if notInCooldown (global and spell)
+    let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost) && isCoolDown){
       hero.buff.toggleLifeBloom(true);
       this.changeHeroHealthOnTime(hero, -500, 1000, 5).then(res => res === true ? hero.buff.toggleLifeBloom(false) : "");
       this.playerProviderService.updateBothManaAndBar(cost);
@@ -189,7 +195,7 @@ constructor (
           // Main attack
           let tankIfAliveOrElseHero = this.raidProviderService.getTankIfAliveOrElseHero();
           if (tankIfAliveOrElseHero != null){
-            this.setFocus(tankIfAliveOrElseHero);
+            this.bossProviderService.getBoss().setFocus(tankIfAliveOrElseHero);
             this.changeHeroHealth(tankIfAliveOrElseHero, 2000);
           }
 
@@ -208,20 +214,12 @@ constructor (
         seconds++;
     });
   }
-
-  // todo moove 
-  // Only one focus by time
-  setFocus(hero:Hero){
-    hero.setIsFocusByBoss(true);
-    hero.setTankValue(true); // If tank is dead then the next target become the tank even if she is weak
-  }
-
   // todo moove 
   // reset focus
-  resetBossFocus(){
+  /*resetBossFocus(){
     for (let i = 0 ; i < this.raidProviderService.getRaid().length ; i++){
       this.raidProviderService.getRaid()[i].setIsFocusByBoss(false);
     }
-  }
+  }*/
 
 }

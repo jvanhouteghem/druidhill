@@ -1,14 +1,35 @@
 import { Character } from './character';
+import * as moment from 'moment/moment';
 
 export class Player extends Character {
 
     private baseMana: number;
     private currentMana: number;
 
+    // Global cooldown
+    // When use a spell it compare lastTimeSpellUsed and currentTime then if coooldown delta is ok register currentTime in lastTimeSpellUsed
+    private globalCooldown: number; // cooldown before to use other spell
+    private lastTimeSpellUsed: any; // timestamp
+
     constructor(name: string, baseHealth: number, baseMana: number) {
         super(name, baseHealth);
         this.baseMana = baseMana;
         this.currentMana = this.baseMana;
+
+        this.globalCooldown = 1000;
+        this.lastTimeSpellUsed = moment().startOf('day');
+    }
+
+    getLastTimeSpellUsed(){
+        return this.lastTimeSpellUsed;
+    }
+
+    trySetLastTimeSpellUsed(inputMoment:any){
+        let compare = inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(this.lastTimeSpellUsed);
+        if(compare === true){
+            this.lastTimeSpellUsed = inputMoment.clone();
+        }
+        return compare;
     }
 
     // negative to reduce current mana / positive to increase current mana
