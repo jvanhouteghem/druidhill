@@ -106,7 +106,7 @@ constructor (
     let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost) && isCoolDown){
 
-      this.spellProviderService.updateLastTimeUsed("0001"); // todo remove, replaced by tryAddSpellOnHero
+      //this.spellProviderService.updateLastTimeUsed("0001"); // todo remove, replaced by tryAddSpellOnHero
       this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment());
       
       this.changeHeroHealthOnTime(hero, -500, 1000, 5); // thenable
@@ -143,8 +143,6 @@ constructor (
         if (boss.isDead() || this.raidProviderService.isWipe()){
           subscription.unsubscribe();
         } else {
-          //console.log(seconds);
-
           // Main attack
           let tankIfAliveOrElseHero = this.raidProviderService.getTankIfAliveOrElseHero();
           if (tankIfAliveOrElseHero != null){
@@ -167,12 +165,5 @@ constructor (
         seconds++;
     });
   }
-  // todo moove 
-  // reset focus
-  /*resetBossFocus(){
-    for (let i = 0 ; i < this.raidProviderService.getRaid().length ; i++){
-      this.raidProviderService.getRaid()[i].setIsFocusByBoss(false);
-    }
-  }*/
 
 }

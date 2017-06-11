@@ -10,14 +10,6 @@ export class Hero extends Character {
   private isFocusByBoss;
 
   private spellsOnHero:any; // todo add type
-  /*
-spells : [
-    {
-      spellId : "0001",
-      lastTimeUsed: moment()
-    }
-]
-  */
 
   constructor(id: number, name: string, baseHealth: number, classColor: string, isTank = false, isPlayer = false) {
     super(name, baseHealth);
