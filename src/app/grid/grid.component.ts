@@ -3,10 +3,12 @@ import {RaidProviderService} from './services/raid-provider.service';
 import {RaidDmgService} from './services/raid-dmg.service';
 import {BossProviderService} from './services/boss-provider.service';
 import {PlayerProviderService} from './services/player-provider.service';
+import {SpellProviderService} from './services/spell-provider.service';
 import {Hero} from './models/characters/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'app-grid',
@@ -15,6 +17,10 @@ import {Subscription} from "rxjs";
 })
 export class GridComponent implements OnInit {
 
+//http://localhost:4200/assets/img/0001.jpg
+@Input() imgPath:string = "app/assets/img";
+imgFileName:string = "001.jpg";
+
     private isLoadingSpell;
 
 // Only for event and display
@@ -22,7 +28,8 @@ export class GridComponent implements OnInit {
     private raidProviderService:RaidProviderService,
     private raidDmgService: RaidDmgService,
     private bossProviderService:BossProviderService,
-    private playerProviderService:PlayerProviderService
+    private playerProviderService:PlayerProviderService,
+    private spellProviderService:SpellProviderService
   ) { 'ngInject'; }
 
   ngOnInit () {
@@ -55,7 +62,7 @@ export class GridComponent implements OnInit {
 
   leftClickOnHero(evt, heroId){ //evt.altKey // evt.ctrlKey
     let hero = this.raidProviderService.getRaid()[heroId];
-    this.raidDmgService.lifebloom(hero);
+    this.raidDmgService.rejuvenation(hero);
   }
 
   rightClickOnHero(evt, heroId){
@@ -107,6 +114,12 @@ export class GridComponent implements OnInit {
       return new Promise(function (resolve, reject) {
           setTimeout(resolve, ms); // (A)
       });
+  }
+
+  // ---
+
+  _isHealOnCooldown(healId:string){
+    return this.spellProviderService.isHealOnCooldown(healId, moment());
   }
 
 }

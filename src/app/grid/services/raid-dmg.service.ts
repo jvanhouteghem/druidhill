@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {RaidProviderService} from './raid-provider.service';
 import {PlayerProviderService} from './player-provider.service';
 import {BossProviderService} from './boss-provider.service';
+import {SpellProviderService} from './spell-provider.service';
 import {Observable} from 'rxjs/Rx';
 import {Subscription} from "rxjs";
 import {Boss} from '../models/characters/boss';
@@ -16,54 +17,16 @@ import * as moment from 'moment/moment';
 @Injectable()
 export class RaidDmgService {
 
-
-// id
-// name
-// cost : mana cost (must be negative)
-// amount : the amount of heal
-// nbStack : max number of similar heal at the same time on the target
-// initialDelay : start after the initialDelay
-// period : the heal occurs every x seconds
-// duration : the duration of the heal
-// castingTime : delay heal
-private healJson = {
-  healList: [
-    {
-      id: "0001",
-      name: "Lifebloom",
-      cost: -1000,
-      amount: -500,
-      nbStack: 1,
-      time: {
-        initialDelay: 1000,
-        castingTime: 0,
-        period: 1000,
-        duration: 8000
-      },
-      target: "single"
-    },
-    {
-      id: "0002",
-      name: "HealingTouch",
-      cost: -3000,
-      amount: -5000,
-      time: {
-        initialDelay: 0,
-        castingTime: 5000,
-        period: 0,
-        duration: 0
-      },
-      target: "single"
-    }
-  ]
-}
+private healJson;
 
 constructor (
     private raidProviderService:RaidProviderService,
     private playerProviderService:PlayerProviderService,
-    private bossProviderService:BossProviderService
+    private bossProviderService:BossProviderService,
+    private spellProviderService:SpellProviderService
   ) { 
     'ngInject';
+    this.healJson = this.spellProviderService.getHeals();
   }
 
   // =======================
@@ -133,19 +96,20 @@ constructor (
   // NEW HEAL
   // =======================
 
-  /*getHealById(healId){
-    for (let i = 0 ; i < this.healJson.healList.length ; i++){
-      if (this.healJson.healList[i].id === healId){
-        return this.healJson.healList[i];
-      } else {
-        throw "No heal for id : " + healId; 
-      }
-    }
-  }*/
-
   // =======================
   // Positive Spells
   // =======================
+
+  rejuvenation(hero:Hero){
+    let cost = -1000;
+    // add if notInCooldown (global and spell)
+    let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost) && isCoolDown){
+      this.spellProviderService.updateLastTimeUsed("0001"); // globalCooldown
+      this.changeHeroHealthOnTime(hero, -500, 1000, 5); // thenable
+      this.playerProviderService.updateBothManaAndBar(cost);
+    }
+  }
 
   healingTouch(hero:Hero){
     let cost = -5000; // todo config file for spells and cost
@@ -153,20 +117,6 @@ constructor (
       // heal
       this.changeHeroHealth(hero, -5000);
       // pay cost
-      this.playerProviderService.updateMana(cost); // todo config file for spells cost
-      this.playerProviderService.updateManaBar(this.playerProviderService.getPlayer().getCurrentManaInPercent());
-    }
-  }
-
-  // todo fix border if delay between two lb
-  // todo heal eclosion
-  lifebloom(hero:Hero){
-    let cost = -1000;
-    // add if notInCooldown (global and spell)
-    let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost) && isCoolDown){
-      hero.buff.toggleLifeBloom(true);
-      this.changeHeroHealthOnTime(hero, -500, 1000, 5).then(res => res === true ? hero.buff.toggleLifeBloom(false) : "");
       this.playerProviderService.updateBothManaAndBar(cost);
     }
   }

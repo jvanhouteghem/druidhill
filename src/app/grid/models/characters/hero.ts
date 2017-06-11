@@ -1,10 +1,8 @@
-import { Buff } from './../buff';
 import { Character } from './character';
 
 export class Hero extends Character {
 
   private id: number;
-  public buff: Buff;
   private classColor: string;
   private isTank: boolean; // boss focus tank at first
   private isPlayer: boolean;
@@ -13,7 +11,6 @@ export class Hero extends Character {
   constructor(id: number, name: string, baseHealth: number, classColor: string, isTank = false, isPlayer = false) {
     super(name, baseHealth);
     this.id = id;
-    this.buff = new Buff();
     this.classColor = classColor;
     this.isTank = isTank;
     this.isFocusByBoss = false;

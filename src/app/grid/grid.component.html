@@ -1,5 +1,5 @@
 <div class="smartPhoneWidth" oncontextmenu="return false;">
-    
+
     <div id="topBars">
             <!-- health bar -->
             <div id="progressBarContainer">
@@ -21,13 +21,13 @@
                 </div>
             </div>
     </div>
-    <!--
+<!--
         <div>
             {{getPlayer() | json}}
         </div>
-        -->
+-->
     <div class="col-xs-15" *ngFor="let n of _getRaid()">
-        <div class="box" [ngClass]="{'box-border-red': n.buff.lifebloom > 0}" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())"
+        <div class="box" [ngClass]="{'box-border-red': n.healStatus.rejuvenationStack > 0}" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())"
             [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnHero($event, n.getId())">
             <div class="box-top">
                 <div class="box-square-left" [ngClass]="{'box-square-red' : n.isFocusByBoss && !n.isDead()}">&#8203;</div>
@@ -54,5 +54,12 @@
 <!--
     {{_getRaid() | slice:0:5 | json}}
     -->
+
+<!-- todo moove in new component -->
+<img class="healIcon0" [ngClass]="{'healicon-fade': _isHealOnCooldown('0001')}" src="http://localhost:4200/assets/img/0001.jpg" />
+<img class="healIcon1" src="http://localhost:4200/assets/img/0002.jpg" />
+<img class="healIcon2" src="http://localhost:4200/assets/img/0003.jpg" />
+<img class="healIcon3" src="http://localhost:4200/assets/img/0004.jpg" />
+<img class="healIcon4" src="http://localhost:4200/assets/img/0005.jpg" />
 
 </div>
