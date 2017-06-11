@@ -1,0 +1,21 @@
+<div id="topBars">
+  <!-- health bar -->
+  <div id="progressBarContainer">
+    <div id="heathTextBar">{{getPlayer().getCurrentHealth()}}/{{getPlayer().getBaseHealth()}}</div>
+    <div id="healthBar"></div>
+  </div>
+  <!-- mana bar -->
+  <div id="progressBarContainer">
+    <div id="manaTextBar">{{getPlayer().getCurrentMana()}}/{{getPlayer().getBaseMana()}}</div>
+    <div id="manaBar"></div>
+  </div>
+  <!-- progress bar -->
+  <div>
+    <div [hidden]="_isLoadingSpell()==false" id="progressBarContainer">
+      <div id="progressBar"></div>
+    </div>
+    <div [hidden]="!_isLoadingSpell()==false" id="progressBarContainer">
+      &#8203;
+    </div>
+  </div>
+</div>

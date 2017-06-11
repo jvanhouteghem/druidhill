@@ -1,65 +1,33 @@
 <div class="smartPhoneWidth" oncontextmenu="return false;">
 
-    <div id="topBars">
-            <!-- health bar -->
-            <div id="progressBarContainer">
-                <div id="heathTextBar">{{getPlayer().getCurrentHealth()}}/{{getPlayer().getBaseHealth()}}</div>
-                <div id="healthBar"></div>
-            </div>
-            <!-- mana bar -->
-            <div id="progressBarContainer">
-                <div id="manaTextBar">{{getPlayer().getCurrentMana()}}/{{getPlayer().getBaseMana()}}</div>
-                <div id="manaBar"></div>
-            </div>
-            <!-- progress bar -->
-            <div>
-                <div [hidden]="isLoadingSpell==false" id="progressBarContainer">
-                    <div id="progressBar"></div>
-                </div>
-                <div [hidden]="!isLoadingSpell==false" id="progressBarContainer">
-                    &#8203;
-                </div>
-            </div>
-    </div>
-<!--
-        <div>
-            {{_getRaid()[0] | json}}
+
+<app-player-bars></app-player-bars>
+
+<div class="col-xs-15" *ngFor="let n of _getRaid()">
+    <div class="box" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())" [ngStyle]="{'background':getCSSGradient(n.getId())}"
+        [ngClass]="{'box-border-red': n.isSpellActive('0001')}" ng-mousedown="clickOnHero($event, n.getId())">
+        <div class="box-top">
+            <div class="box-square-left" [ngClass]="{'box-square-red' : n.isFocusByBoss && !n.isDead()}">&#8203;</div>
+            <div class="box-square-center">&#8203;</div>
+            <div class="box-square-right">&#8203;</div>
         </div>
--->
-    <div class="col-xs-15" *ngFor="let n of _getRaid()">
-        <div class="box" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())"
-            [ngStyle]="{'background':getCSSGradient(n.getId())}" [ngClass]="{'box-border-red': n.isSpellActive('0001')}" ng-mousedown="clickOnHero($event, n.getId())">
-            <div class="box-top">
-                <div class="box-square-left" [ngClass]="{'box-square-red' : n.isFocusByBoss && !n.isDead()}">&#8203;</div>
-                <div class="box-square-center">&#8203;</div>
-                <div class="box-square-right">&#8203;</div>
-            </div>
 
-            <div class="box-middle noselect">
-                <div [hidden]="n.isDead()">{{n.dmgTaken == 0 ? '&#8203;' : -n.dmgTaken}}</div>
-                <div [hidden]="n.isDead()">{{n.name}}</div>
+        <div class="box-middle noselect">
+            <div [hidden]="n.isDead()">{{n.dmgTaken == 0 ? '&#8203;' : -n.dmgTaken}}</div>
+            <div [hidden]="n.isDead()">{{n.name}}</div>
 
-                <div [hidden]="!n.isDead()">&#8203;</div>
-                <div [hidden]="!n.isDead()">Dead</div>
-            </div>
+            <div [hidden]="!n.isDead()">&#8203;</div>
+            <div [hidden]="!n.isDead()">Dead</div>
+        </div>
 
-            <div class="box-bottom">
-                <div class="box-square-left">&#8203;</div>
-                <div class="box-square-center">&#8203;</div>
-                <div class="box-square-right">&#8203;</div>
-            </div>
+        <div class="box-bottom">
+            <div class="box-square-left">&#8203;</div>
+            <div class="box-square-center">&#8203;</div>
+            <div class="box-square-right">&#8203;</div>
         </div>
     </div>
+</div>
 
-<!--
-    {{_getRaid() | slice:0:5 | json}}
-    -->
-
-<!-- todo moove in new component -->
-<img class="healIcon0" [ngClass]="{'healicon-fade': _isHealOnCooldown('0001')}" src="http://localhost:4200/assets/img/0001.jpg" />
-<img class="healIcon1" src="http://localhost:4200/assets/img/0002.jpg" />
-<img class="healIcon2" src="http://localhost:4200/assets/img/0003.jpg" />
-<img class="healIcon3" src="http://localhost:4200/assets/img/0004.jpg" />
-<img class="healIcon4" src="http://localhost:4200/assets/img/0005.jpg" />
+<app-spell-icons></app-spell-icons>
 
 </div>

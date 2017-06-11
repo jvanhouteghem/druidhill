@@ -12,11 +12,15 @@ import { AppComponent } from './app.component';
 import { GridComponent } from './grid/grid.component';
 
 import { routes } from './app.router';
+import { SpellIconsComponent } from './grid/views/spell-icons/spell-icons.component';
+import { PlayerBarsComponent } from './grid/views/player-bars/player-bars.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GridComponent
+    GridComponent,
+    SpellIconsComponent,
+    PlayerBarsComponent
   ],
   imports: [
     BrowserModule,

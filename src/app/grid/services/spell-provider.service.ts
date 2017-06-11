@@ -58,7 +58,19 @@ export class SpellProviderService {
     ]
   }
 
-  constructor(private raidProviderService: RaidProviderService) { }
+  private isLoadingSpell: boolean;
+
+  constructor(private raidProviderService: RaidProviderService) {
+    this.isLoadingSpell = false;
+  }
+
+  setIsLoadingSpell(value){
+    this.isLoadingSpell = value;
+  }
+
+  getIsLoadingSpell(){
+    return this.isLoadingSpell;
+  }
 
   getHeals() {
     return this.heals.heals;

@@ -21,7 +21,7 @@ export class GridComponent implements OnInit {
 @Input() imgPath:string = "app/assets/img";
 imgFileName:string = "001.jpg";
 
-    private isLoadingSpell;
+    
 
 // Only for event and display
   constructor (
@@ -36,7 +36,7 @@ imgFileName:string = "001.jpg";
     this.playerProviderService.setPlayer("Lea", 20000, 15500);
     this.raidProviderService.generateRaid();
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
-    this.isLoadingSpell = false;
+    //this.isLoadingSpell = false;
     this.playerProviderService.startPlayerManaRegen();
 
     this.initializeHealthBar();
@@ -70,8 +70,8 @@ imgFileName:string = "001.jpg";
     // Loader then Heal and hide loader
     // todo refacto
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
-      this.isLoadingSpell = true;
-      this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.isLoadingSpell = false});
+      this.spellProviderService.setIsLoadingSpell(true);
+      this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.spellProviderService.setIsLoadingSpell(false)});
     }
   }
 
@@ -116,11 +116,6 @@ imgFileName:string = "001.jpg";
       });
   }
 
-  // ---
-
-  _isHealOnCooldown(healId:string){
-    return this.spellProviderService.isHealOnCooldown(healId, moment());
-  }
 
   /*_isSpellActiveOnHero(heroId, healId:string){
     let hero = this.raidProviderService.getRaid()[heroId];
