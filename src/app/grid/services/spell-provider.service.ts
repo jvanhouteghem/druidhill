@@ -31,7 +31,6 @@ export class SpellProviderService {
         cost: -1000,
         amount: -500,
         maxStack: 1,
-        currentStack: 0,
         time: {
           initialDelay: 1000,
           castingTime: 0,
@@ -47,7 +46,6 @@ export class SpellProviderService {
         cost: -3000,
         amount: -5000,
         maxStack: 1,
-        currentStack: 0,
         time: {
           initialDelay: 0,
           castingTime: 5000,
