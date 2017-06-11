@@ -7,6 +7,7 @@ import {RaidDmgService} from './grid/services/raid-dmg.service';
 import {BossProviderService} from './grid/services/boss-provider.service';
 import {PlayerProviderService} from './grid/services/player-provider.service';
 import {SpellProviderService} from './grid/services/spell-provider.service';
+import {GameProviderService} from './grid/services/game-provider.service';
 
 import { AppComponent } from './app.component';
 import { GridComponent } from './grid/grid.component';
@@ -30,7 +31,7 @@ import { BossBarsComponent } from './grid/views/boss-bars/boss-bars.component';
     HttpModule,
     routes
   ],
-  providers: [RaidProviderService, RaidDmgService, BossProviderService, PlayerProviderService, SpellProviderService],
+  providers: [RaidProviderService, RaidDmgService, BossProviderService, PlayerProviderService, SpellProviderService, GameProviderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

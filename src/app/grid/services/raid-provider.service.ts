@@ -82,7 +82,6 @@ private raid:Hero[] = [];
       }
     }
     return randomAliveHeroResult;
-    //return randomAliveHeroResult !== null ? randomAliveHeroResult : (function(){throw "getRandomAliveHero : hero is null"}());
   }
 
   getNbHeroAlive(){

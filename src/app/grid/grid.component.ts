@@ -4,6 +4,7 @@ import {RaidDmgService} from './services/raid-dmg.service';
 import {BossProviderService} from './services/boss-provider.service';
 import {PlayerProviderService} from './services/player-provider.service';
 import {SpellProviderService} from './services/spell-provider.service';
+import {GameProviderService} from './services/game-provider.service';
 import {Hero} from './models/characters/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import * as moment from 'moment/moment';
@@ -27,18 +28,12 @@ imgFileName:string = "001.jpg";
     private raidDmgService: RaidDmgService,
     private bossProviderService:BossProviderService,
     private playerProviderService:PlayerProviderService,
-    private spellProviderService:SpellProviderService
+    private spellProviderService:SpellProviderService,
+    private gameProviderService:GameProviderService
   ) { 'ngInject'; }
 
   ngOnInit () {
-    this.playerProviderService.setPlayer("Lea", 20000, 15500);
-    this.raidProviderService.generateRaid();
-    this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
-    //this.isLoadingSpell = false;
-    this.playerProviderService.startPlayerManaRegen();
-
-    this.initializeHealthBar();
-    this.initializeManaBar();
+    this.gameProviderService.startGame();
   }
 
   _getRaid(){
@@ -93,16 +88,6 @@ imgFileName:string = "001.jpg";
       }
       setTimeout(resolve, milliseconds); 
      });
-  }
-
-  initializeHealthBar(){
-    var elem = document.getElementById("healthBar");
-    elem.style.width = '100%';
-  }
-
-  initializeManaBar(){
-    var elem = document.getElementById("manaBar");
-    elem.style.width = '100%';
   }
 
   // promise delay if animated progress bar
