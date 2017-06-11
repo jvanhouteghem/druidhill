@@ -1,4 +1,5 @@
 import { Character } from './character';
+import * as moment from 'moment/moment';
 
 export class Hero extends Character {
 
@@ -8,6 +9,16 @@ export class Hero extends Character {
   private isPlayer: boolean;
   private isFocusByBoss;
 
+  private spellsOnHero:any; // todo add type
+  /*
+spells : [
+    {
+      spellId : "0001",
+      lastTimeUsed: moment()
+    }
+]
+  */
+
   constructor(id: number, name: string, baseHealth: number, classColor: string, isTank = false, isPlayer = false) {
     super(name, baseHealth);
     this.id = id;
@@ -15,6 +26,7 @@ export class Hero extends Character {
     this.isTank = isTank;
     this.isFocusByBoss = false;
     this.isPlayer = isPlayer;
+    this.spellsOnHero = [];
   }
 
   getClassColor() {
@@ -91,6 +103,58 @@ export class Hero extends Character {
     } else {
       return false;
     }
+  }
+
+  addSpell(inputSpellId, inputSpellUsedTime){
+    let spell = {spellId : inputSpellId, lastTimeUsed : inputSpellUsedTime};
+    this.spellsOnHero.push(spell);
+  }
+
+  updateSpell(inputSpellId, inputSpellUsedTime){
+    for (let i = 0 ; i < this.spellsOnHero.length ; i++){
+      if (this.spellsOnHero[i].spellId === inputSpellId){
+        this.spellsOnHero[i].lastTimeUsed = inputSpellUsedTime;
+      }
+    }
+  }
+
+  isSpellInSpellArray(inputSpellId){
+    let result = false;
+    for (let i = 0 ; i < this.spellsOnHero.length ; i++){
+      if (this.spellsOnHero[i].spellId === inputSpellId){
+        result = true;
+      }
+    }
+    return result;
+  }
+
+  getSpellsOnHero(){
+    return this.spellsOnHero;
+  }
+
+  /*getSpellOnHero(inputSpellId){
+    let result = null;
+    for (let i = 0 ; i < this.spellsOnHero.length ; i++){
+      if (this.spellsOnHero[i].spellId === inputSpellId){
+        result = this.spellsOnHero[i];
+      }
+    }
+    return result;    
+  }*/
+
+  // active if not on cd
+  isSpellActive(inputSpellId){
+    let result = false;
+    for (let i = 0 ; i < this.spellsOnHero.length ; i++){
+      if (this.spellsOnHero[i].spellId === inputSpellId){
+        var now = moment().clone(); //todays date
+        var lastTime = this.spellsOnHero[i].lastTimeUsed; // another date
+        var duration = moment.duration(now.diff(lastTime)).asMilliseconds();
+        result = duration <= 5000 ? true : false;
+        break;
+      }
+    }
+    return result;
   }
 
 }

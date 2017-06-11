@@ -105,7 +105,10 @@ constructor (
     // add if notInCooldown (global and spell)
     let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost) && isCoolDown){
-      this.spellProviderService.updateLastTimeUsed("0001"); // globalCooldown
+
+      this.spellProviderService.updateLastTimeUsed("0001"); // todo remove, replaced by tryAddSpellOnHero
+      this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment());
+      
       this.changeHeroHealthOnTime(hero, -500, 1000, 5); // thenable
       this.playerProviderService.updateBothManaAndBar(cost);
     }

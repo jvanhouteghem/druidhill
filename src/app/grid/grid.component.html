@@ -23,12 +23,12 @@
     </div>
 <!--
         <div>
-            {{getPlayer() | json}}
+            {{_getRaid()[0] | json}}
         </div>
 -->
     <div class="col-xs-15" *ngFor="let n of _getRaid()">
         <div class="box" (contextmenu)="rightClickOnHero($event, n.getId())" (click)="leftClickOnHero($event, n.getId())"
-            [ngStyle]="{'background':getCSSGradient(n.getId())}" ng-mousedown="clickOnHero($event, n.getId())">
+            [ngStyle]="{'background':getCSSGradient(n.getId())}" [ngClass]="{'box-border-red': n.isSpellActive('0001')}" ng-mousedown="clickOnHero($event, n.getId())">
             <div class="box-top">
                 <div class="box-square-left" [ngClass]="{'box-square-red' : n.isFocusByBoss && !n.isDead()}">&#8203;</div>
                 <div class="box-square-center">&#8203;</div>

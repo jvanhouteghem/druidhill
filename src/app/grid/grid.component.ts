@@ -122,4 +122,9 @@ imgFileName:string = "001.jpg";
     return this.spellProviderService.isHealOnCooldown(healId, moment());
   }
 
+  /*_isSpellActiveOnHero(heroId, healId:string){
+    let hero = this.raidProviderService.getRaid()[heroId];
+    return this.spellProviderService.isSpellActiveOnHero(hero, healId);
+  }*/
+
 }

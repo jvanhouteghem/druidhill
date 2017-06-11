@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment/moment';
+import {Hero} from '../models/characters/hero';
+
+// todo : ne stock pas les cooldown mais est capable de parcourir chaque héro pour savoir les spells utilisés
 
 @Injectable()
 export class SpellProviderService {
@@ -93,10 +96,8 @@ export class SpellProviderService {
   }
 
   isHealOnCooldown(spellId, inputMoment){
-    // compare dates
-    let lastTimeSpellUsed = this.getHealById("0001").lastTimeUsed;
+    let lastTimeSpellUsed = this.getHealById(spellId).lastTimeUsed;
     let compare = !inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(this.getLastTimeSpellUsed());
-    //console.log(compare);
     return compare;
   }
 
@@ -104,18 +105,17 @@ export class SpellProviderService {
     this.getHealById(healId).lastTimeUsed = moment().clone();
   }
 
-  // changeStatus : true for increase, false for decrease
-  /*updateHealCurrentStack(healId, heroId, changeStatus){
-      // Only one rejuvenation per time
-      if(changeStatus === true){
-          this.heals.heals[0].currentStack++; // todo update add retreive heal by id
-      } 
-      else {
-          this.heals.heals[0].currentStack++;
-      }
-      console.log(this.heals);
-  }*/
-
-  // todo add isHealUsedToHero(healId, heroId)
+  tryAddSpellOnHero(hero:Hero, inputSpellId, inputSpellUsedTime){
+    // add if condition, then add or update
+    let isAlready = hero.isSpellInSpellArray(inputSpellId);
+    // add if !already
+    if(!isAlready){
+      hero.addSpell(inputSpellId, inputSpellUsedTime);
+    } 
+    // update if already
+    else {
+      hero.updateSpell(inputSpellId, inputSpellUsedTime);
+    }
+  }
 
 }
