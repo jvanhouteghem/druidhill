@@ -13,7 +13,7 @@ export class BossProviderService {
   }
 
   initBoss(){
-    this.boss = new Boss("THEBOSS", 50000, "Normal");
+    this.boss = new Boss("THEBOSS", 100000, "Normal");
   }
 
   getBoss(){

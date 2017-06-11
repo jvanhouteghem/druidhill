@@ -1,5 +1,4 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { PlayerProviderService } from './player-provider.service';
 
 describe('PlayerProviderService', () => {
