@@ -22,7 +22,6 @@ export class PlayerProviderService {
     // Interval
     let subscription: Subscription;
     let timer = Observable.timer(0,1000);
-    let count = 0;
     subscription = timer.subscribe(t=> {
       this.updateMana(this.getPlayer().getRegenManaPerSecond());
       this.updateManaBar(this.getPlayer().getCurrentManaInPercent());

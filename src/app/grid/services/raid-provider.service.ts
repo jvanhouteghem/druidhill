@@ -85,15 +85,18 @@ private raid:Hero[] = [];
     //return randomAliveHeroResult !== null ? randomAliveHeroResult : (function(){throw "getRandomAliveHero : hero is null"}());
   }
 
-  isWipe(){
-    let result = true;
+  getNbHeroAlive(){
+    let result = 0;
     for (let i = 0 ; i < this.getRaid().length ; i++){
       if(!this.raid[i].isDead()){
-        result = false;
-        break;
+        result ++;
       }
     }
-    return result;
+    return result;  
+  }
+
+  isWipe(){
+    return this.getNbHeroAlive() > 0 ? false : true;
   }
 
   doWipe(){

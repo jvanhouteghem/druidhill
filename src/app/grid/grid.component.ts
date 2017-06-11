@@ -6,8 +6,6 @@ import {PlayerProviderService} from './services/player-provider.service';
 import {SpellProviderService} from './services/spell-provider.service';
 import {Hero} from './models/characters/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {Subscription} from "rxjs";
 import * as moment from 'moment/moment';
 
 @Component({
@@ -67,8 +65,6 @@ imgFileName:string = "001.jpg";
 
   rightClickOnHero(evt, heroId){
     let hero = this.raidProviderService.getRaid()[heroId];
-    // Loader then Heal and hide loader
-    // todo refacto
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
       this.spellProviderService.setIsLoadingSpell(true);
       this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.spellProviderService.setIsLoadingSpell(false)});
