@@ -1,0 +1,39 @@
+/*----------------------------------------
+//  progress bar
+//----------------------------------------*/
+
+#BossBars {
+    /*text-align:center;*/
+}
+
+#progressBarContainer {
+  width: 100%;
+  background-color: #ddd;
+  margin: 5px 0px;
+}
+
+#progressBar {
+  width: 0%;
+  height: 15px;
+  background-color: #4CAF50;
+  text-align: center;
+  line-height: 15px;
+  color: white;
+}
+
+#bossHealthBar {
+  width: 0%;
+  height: 15px;
+  background-color: #a53636;
+  text-align: center;
+  line-height: 15px;
+  color: white;
+}
+
+#bossHeathTextBar {
+    z-index: 100;
+    position: absolute;
+    color: white;
+    left: 115px;
+    top: 415px;
+}
