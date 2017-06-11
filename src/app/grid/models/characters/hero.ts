@@ -132,16 +132,6 @@ spells : [
     return this.spellsOnHero;
   }
 
-  /*getSpellOnHero(inputSpellId){
-    let result = null;
-    for (let i = 0 ; i < this.spellsOnHero.length ; i++){
-      if (this.spellsOnHero[i].spellId === inputSpellId){
-        result = this.spellsOnHero[i];
-      }
-    }
-    return result;    
-  }*/
-
   // active if not on cd
   isSpellActive(inputSpellId){
     let result = false;

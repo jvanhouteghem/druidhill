@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment/moment';
 import {Hero} from '../models/characters/hero';
 
-// todo : ne stock pas les cooldown mais est capable de parcourir chaque héro pour savoir les spells utilisés
-
 @Injectable()
 export class SpellProviderService {
 
@@ -41,7 +39,7 @@ export class SpellProviderService {
           },
           targetType: "single",
           cooldown: 5,
-          lastTimeUsed: moment().startOf('day'), // todo initialize method
+          lastTimeUsed: moment().startOf('day'), // replace by method
           usedBy:[
             {}
           ]
@@ -61,14 +59,13 @@ export class SpellProviderService {
           },
           targetType: "single",
           cooldown: 5,
-          lastTimeUsed: moment().startOf('day') // todo initialize method
+          lastTimeUsed: moment().startOf('day') // replace by method
         }
       ]
   }
 
   constructor() { }
 
-  // todo add heal class and create heal[] ?
   getHeals() {
     return this.heals.heals;
   };
@@ -83,11 +80,9 @@ export class SpellProviderService {
     }
   }
   
-  // récupère le moment le plus récent
   getLastTimeSpellUsed(){
-    let result = moment().clone().startOf('day'); // initializeDate
+    let result = moment().clone().startOf('day');
     for (let i = 0 ; i < this.getHeals().length ; i++){
-      //console.log(this.getHeals()[i].lastTimeUsed.isAfter(result));
       if(this.getHeals()[i].lastTimeUsed.isAfter(result)){
         result = this.getHeals()[i].lastTimeUsed.clone();
       }
@@ -106,13 +101,10 @@ export class SpellProviderService {
   }
 
   tryAddSpellOnHero(hero:Hero, inputSpellId, inputSpellUsedTime){
-    // add if condition, then add or update
     let isAlready = hero.isSpellInSpellArray(inputSpellId);
-    // add if !already
     if(!isAlready){
       hero.addSpell(inputSpellId, inputSpellUsedTime);
     } 
-    // update if already
     else {
       hero.updateSpell(inputSpellId, inputSpellUsedTime);
     }
