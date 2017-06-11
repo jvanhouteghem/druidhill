@@ -2,6 +2,14 @@
 //  grid
 //----------------------------------------*/
 
+::selection {
+    background: transparent;
+}
+::-moz-selection {
+    background: transparent;
+}
+
+
 /* 5 Columns */
 .col-xs-15,
 {

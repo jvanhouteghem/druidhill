@@ -2,6 +2,13 @@
 //  progress bar
 //----------------------------------------*/
 
+::selection {
+    background: transparent;
+}
+::-moz-selection {
+    background: transparent;
+}
+
 #topBars {
     /*text-align:center;*/
 }

@@ -5,3 +5,10 @@
 .healicon-fade {
     opacity: 0.5;
 }
+
+::selection {
+    background: transparent;
+}
+::-moz-selection {
+    background: transparent;
+}
