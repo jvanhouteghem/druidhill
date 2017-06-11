@@ -93,41 +93,29 @@ constructor (
   }
 
   // =======================
-  // NEW HEAL
-  // =======================
-
-  // =======================
-  // Positive Spells
+  // Heals
   // =======================
 
   rejuvenation(hero:Hero){
-    let cost = -1000;
+    let currentHeal = this.spellProviderService.getHealById("0001");
     // add if notInCooldown (global and spell)
     let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost) && isCoolDown){
-
-      //this.spellProviderService.updateLastTimeUsed("0001"); // todo remove, replaced by tryAddSpellOnHero
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && isCoolDown){
       this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment());
-      
       this.changeHeroHealthOnTime(hero, -500, 1000, 5); // thenable
-      this.playerProviderService.updateBothManaAndBar(cost);
+      this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
     }
   }
 
   healingTouch(hero:Hero){
-    let cost = -5000; // todo config file for spells and cost
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(cost)){
+    let currentHeal = this.spellProviderService.getHealById("0002");
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost)){
       // heal
-      this.changeHeroHealth(hero, -5000);
+      this.changeHeroHealth(hero, currentHeal.amount);
       // pay cost
-      this.playerProviderService.updateBothManaAndBar(cost);
+      this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
     }
   }
-
-  // =======================
-  // Negative Spells
-  // =======================
-
 
   // =======================
   // Boss attacks

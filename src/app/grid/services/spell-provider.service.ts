@@ -43,8 +43,8 @@ export class SpellProviderService {
       {
         id: "0002",
         name: "HealingTouch",
-        cost: -3000,
-        amount: -5000,
+        cost: -5000,
+        amount: -15000,
         maxStack: 1,
         time: {
           initialDelay: 0,
@@ -80,10 +80,9 @@ export class SpellProviderService {
     for (let i = 0; i < this.getHeals().length; i++) {
       if (this.getHeals()[i].id === healId) {
         return this.getHeals()[i];
-      } else {
-        throw "No heal for this id : " + healId;
       }
     }
+    throw "No heal for this id : " + healId;
   }
 
   // Loop each hero to get last time a spell was used
