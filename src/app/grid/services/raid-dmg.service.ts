@@ -98,9 +98,7 @@ constructor (
 
   rejuvenation(hero:Hero){
     let currentHeal = this.spellProviderService.getHealById("0001");
-    // add if notInCooldown (global and spell)
-    let isCoolDown = this.playerProviderService.getPlayer().trySetLastTimeSpellUsed(moment());
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && isCoolDown){
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0001", moment().clone())){
       this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment());
       this.changeHeroHealthOnTime(hero, -500, 1000, 5); // thenable
       this.playerProviderService.updateBothManaAndBar(currentHeal.cost);

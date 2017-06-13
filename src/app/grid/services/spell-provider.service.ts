@@ -38,7 +38,7 @@ export class SpellProviderService {
           duration: 8000
         },
         targetType: "single",
-        cooldown: 5
+        cooldown: 5000
       },
       {
         id: "0002",
@@ -53,7 +53,7 @@ export class SpellProviderService {
           duration: 0
         },
         targetType: "single",
-        cooldown: 5
+        cooldown: 5000
       }
     ]
   }
@@ -101,8 +101,9 @@ export class SpellProviderService {
 
   isHealOnCooldown(spellId, inputMoment) {
     let lastTimeSpellUsed = this.getLastTimeSpellUsed(spellId);
-    let compare = !inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(lastTimeSpellUsed);
-    return compare;
+    let isGlobalCooldown = !inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(lastTimeSpellUsed);
+    let isHealOnCooldown = !inputMoment.clone().subtract(this.getHealById(spellId).cooldown, 'millisecond').isAfter(lastTimeSpellUsed);
+    return isGlobalCooldown || isHealOnCooldown;
   }
 
   tryAddSpellOnHero(hero: Hero, inputSpellId, inputSpellUsedTime) {

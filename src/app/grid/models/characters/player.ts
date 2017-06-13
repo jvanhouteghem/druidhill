@@ -22,7 +22,7 @@ export class Player extends Character {
     }
 
     // todo moove to spell-service
-    getLastTimeSpellUsed(){
+    /*getLastTimeSpellUsed(){
         return this.lastTimeSpellUsed;
     }
 
@@ -32,7 +32,7 @@ export class Player extends Character {
             this.lastTimeSpellUsed = inputMoment.clone();
         }
         return compare;
-    }
+    }*/
 
     // negative to reduce current mana / positive to increase current mana
     updateMana(mana) {
