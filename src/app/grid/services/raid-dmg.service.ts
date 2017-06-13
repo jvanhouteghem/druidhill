@@ -107,11 +107,16 @@ constructor (
 
   healingTouch(hero:Hero){
     let currentHeal = this.spellProviderService.getHealById("0002");
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost)){
-      // heal
-      this.changeHeroHealth(hero, currentHeal.amount);
-      // pay cost
-      this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0002", moment().clone())){
+      this.spellProviderService.tryAddSpellOnHero(hero, "0002", moment());
+      this.spellProviderService.setIsLoadingSpell(true);
+      this.moveProgressBar(600).then(() => {
+        this.spellProviderService.setIsLoadingSpell(false);
+        // heal
+        this.changeHeroHealth(hero, currentHeal.amount);
+        // pay cost
+        this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
+      });
     }
   }
 
@@ -150,6 +155,25 @@ constructor (
         }
         seconds++;
     });
+  }
+
+  // Use to animate progressBar
+  moveProgressBar(milliseconds:number) {
+     return new Promise(function (resolve, reject) {
+      var elem = document.getElementById("progressBar");   
+      var width = 10;
+      var id = setInterval(frame, milliseconds/100);
+      function frame() {
+        if (width >= 100) {
+          clearInterval(id);
+        } else {
+          width++; 
+          elem.style.width = width + '%'; 
+          //elem.innerHTML = width * 1  + '%';
+        }
+      }
+      setTimeout(resolve, milliseconds); 
+     });
   }
 
 }

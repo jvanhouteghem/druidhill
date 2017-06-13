@@ -60,47 +60,16 @@ imgFileName:string = "001.jpg";
 
   rightClickOnHero(evt, heroId){
     let hero = this.raidProviderService.getRaid()[heroId];
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
+    this.raidDmgService.healingTouch(hero);
+    /*if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
       this.spellProviderService.setIsLoadingSpell(true);
       this.moveProgressBar(600).then(() => {this.raidDmgService.healingTouch(hero), this.spellProviderService.setIsLoadingSpell(false)});
-    }
+    }*/
   }
 
   getPlayer(){
     return this.playerProviderService.getPlayer();
   }
 
-  // Use to animate progressBar
-  // todo move away
-  moveProgressBar(milliseconds:number) {
-     return new Promise(function (resolve, reject) {
-      var elem = document.getElementById("progressBar");   
-      var width = 10;
-      var id = setInterval(frame, milliseconds/100);
-      function frame() {
-        if (width >= 100) {
-          clearInterval(id);
-        } else {
-          width++; 
-          elem.style.width = width + '%'; 
-          //elem.innerHTML = width * 1  + '%';
-        }
-      }
-      setTimeout(resolve, milliseconds); 
-     });
-  }
-
-  // promise delay if animated progress bar
-  delay(ms) {
-      return new Promise(function (resolve, reject) {
-          setTimeout(resolve, ms); // (A)
-      });
-  }
-
-
-  /*_isSpellActiveOnHero(heroId, healId:string){
-    let hero = this.raidProviderService.getRaid()[heroId];
-    return this.spellProviderService.isSpellActiveOnHero(hero, healId);
-  }*/
 
 }

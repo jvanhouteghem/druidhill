@@ -38,7 +38,7 @@ export class SpellProviderService {
           duration: 8000
         },
         targetType: "single",
-        cooldown: 5000
+        cooldown: 0
       },
       {
         id: "0002",
@@ -86,23 +86,34 @@ export class SpellProviderService {
   }
 
   // Loop each hero to get last time a spell was used
-  getLastTimeSpellUsed(spellId) {
+  getLastTimeSpellUsed(spellId?: string) {
     let result = moment().clone().startOf('day');
     for (let i = 0; i < this.raidProviderService.getRaid().length; i++) {
       let currentHeroSpells = this.raidProviderService.getRaid()[i].getSpellsOnHero();
       for (let j = 0; j < currentHeroSpells.length; j++) {
-        if (currentHeroSpells[j].lastTimeUsed.isAfter(result)) {
-          result = currentHeroSpells[j].lastTimeUsed;
+
+        // Retreive last update moment of defined spell
+        if (spellId != undefined && currentHeroSpells[j].spellId === spellId && currentHeroSpells[j].lastTimeUsed.isAfter(result)) {
+          result = currentHeroSpells[j].lastTimeUsed.clone();
+          let tst = spellId != currentHeroSpells[j].id;
+        } 
+        // Retreive last update moment of any spell
+        else if (spellId  === undefined && currentHeroSpells[j].lastTimeUsed.isAfter(result)){
+            result = currentHeroSpells[j].lastTimeUsed.clone();
         }
       }
+
     }
     return result;
   }
 
   isHealOnCooldown(spellId, inputMoment) {
-    let lastTimeSpellUsed = this.getLastTimeSpellUsed(spellId);
+    let lastTimeSpellUsed = this.getLastTimeSpellUsed();
     let isGlobalCooldown = !inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(lastTimeSpellUsed);
-    let isHealOnCooldown = !inputMoment.clone().subtract(this.getHealById(spellId).cooldown, 'millisecond').isAfter(lastTimeSpellUsed);
+    
+    let lastTimeInputHealUsed = this.getLastTimeSpellUsed(spellId);
+    let isHealOnCooldown = !inputMoment.clone().subtract(this.getHealById(spellId).cooldown, 'millisecond').isAfter(lastTimeInputHealUsed);
+    
     return isGlobalCooldown || isHealOnCooldown;
   }
 
