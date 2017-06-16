@@ -21,6 +21,9 @@ export class RaidDmgService {
 
   private healJson;
 
+  private changeHealthSubscription;
+  private playerCastingSubscription;
+
   constructor(
     private raidProviderService: RaidProviderService,
     private playerProviderService: PlayerProviderService,
@@ -70,8 +73,6 @@ export class RaidDmgService {
     this.updateIfPlayer(hero);
   }
 
-  private subscription;
-
   changeHeroHealthOnTime(hero, inputValue, milliSecondByTick = 1000, nbTick = 1) {
     // Observable emits
     var source = Rx.Observable
@@ -86,7 +87,7 @@ export class RaidDmgService {
       complete: () => console.log('Observer got a complete notification : heal done'),
     };
 
-    this.subscription = source.subscribe(observer);
+    this.changeHealthSubscription = source.subscribe(observer);
   }
 
   // =======================
@@ -111,17 +112,19 @@ export class RaidDmgService {
   }
 
   healingTouch(hero: Hero) {
+    //this.subscription.unsubscribe();
     let currentHeal = this.spellProviderService.getHealById("0002");
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0002", moment().clone())) {
       this.spellProviderService.tryAddSpellOnHero(hero, "0002", moment());
       this.spellProviderService.setIsLoadingSpell(true);
-      this.moveProgressBar(600).then(() => {
+      
+      this.moveProgressBar(600);/*.then(() => {
         this.spellProviderService.setIsLoadingSpell(false);
         // heal
         this.changeHeroHealth(hero, currentHeal.amount);
         // pay cost
         this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
-      });
+      });*/
     }
   }
 
@@ -160,22 +163,23 @@ export class RaidDmgService {
     });
   }
 
-  moveProgressBar(milliseconds: number) {
-    return new Promise(function (resolve, reject) {
-      var elem = document.getElementById("progressBar");
-      var width = 10;
-      var id = setInterval(frame, milliseconds / 100);
-      function frame() {
-        if (width >= 100) {
-          clearInterval(id);
-        } else {
-          width++;
-          elem.style.width = width + '%';
-          //elem.innerHTML = width * 1  + '%';
-        }
-      }
-      setTimeout(resolve, milliseconds);
-    });
+  moveProgressBar(milliseconds: number){
+    // Observable emits
+    var source = Rx.Observable
+      .interval(milliseconds / 100)
+      //.timeInterval()
+      .take(100); // call complete() after nbTick is done
+
+    // Observer receive
+    var elem = document.getElementById("progressBar");
+    var width = 0;
+    var observer = {
+      next: x => {width++, elem.style.width = width + '%'},
+      error: err => console.error('Observer got an error: ' + err),
+      complete: () => console.log('Observer got a complete notification : casting heal done'),
+    };
+
+    this.playerCastingSubscription = source.subscribe(observer);
   }
 
 }
