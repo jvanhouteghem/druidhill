@@ -4,25 +4,27 @@ import { RaidDmgService } from './raid-dmg.service';
 import { BossProviderService } from './boss-provider.service';
 import { PlayerProviderService } from './player-provider.service';
 import { SpellProviderService } from './spell-provider.service';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from "rxjs";
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 import * as moment from 'moment/moment';
+import {Pause} from '../models/pause';
 
 @Injectable()
-export class GameProviderService {
+export class GameProviderService extends Pause{
 
-  private subscription: Subscription;
+  /*private subscription: Subscription;
   private timer = Observable.timer(0, 500);
-  private pause: any;
+  private pause: any;*/
 
   constructor(
     private raidProviderService: RaidProviderService,
-    private raidDmgService: RaidDmgService,
     private bossProviderService: BossProviderService,
     private playerProviderService: PlayerProviderService,
-    private spellProviderService: SpellProviderService
+    private raidDmgService: RaidDmgService
+    //private spellProviderService: SpellProviderService
   ) { 
-    this.pause = {duration : 0, isPause : false};
+    'ngInject';
+    super();
   }
 
   startGame() {
@@ -31,22 +33,7 @@ export class GameProviderService {
     this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
     this.playerProviderService.startPlayerManaRegen();
     this.initializeHealthBar();
-    this.initializeManaBar();
-    
-    //this.togglePause();
-  }
-
-  togglePause(){
-    if (this.pause.isPause === false){
-      this.pause.isPause = true;
-      this.pause.duration = 0;
-      this.subscription = this.timer.subscribe(t => {
-        this.pause.duration += 500;
-      });
-    } else {
-      this.pause.isPause = false;
-      this.subscription.unsubscribe();
-    }
+    this.initializeManaBar();    
   }
 
   initializeHealthBar() {
