@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RaidProviderService } from './raid-provider.service';
 import { PlayerProviderService } from './player-provider.service';
-import { BossProviderService } from './boss-provider.service';
 import { SpellProviderService } from './spell-provider.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from "rxjs";
@@ -27,9 +26,7 @@ export class RaidDmgService {
   constructor(
     private raidProviderService: RaidProviderService,
     private playerProviderService: PlayerProviderService,
-    private bossProviderService: BossProviderService,
     private spellProviderService: SpellProviderService,
-    //private gameProviderService:GameProviderService
   ) {
     'ngInject';
     this.healJson = this.spellProviderService.getHeals();
@@ -105,8 +102,8 @@ export class RaidDmgService {
   rejuvenation(hero: Hero) {
     let currentHeal = this.spellProviderService.getHealById("0001");
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0001", moment().clone())) {
-      this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment());
-      this.changeHeroHealthOnTime(hero, -500, 1000, 5);
+      this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment()); // used to calculate cooldown
+      this.changeHeroHealthOnTime(hero, -500, 1000, 5); 
       this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
     }
   }
@@ -115,53 +112,19 @@ export class RaidDmgService {
     //this.subscription.unsubscribe();
     let currentHeal = this.spellProviderService.getHealById("0002");
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0002", moment().clone())) {
-      this.spellProviderService.tryAddSpellOnHero(hero, "0002", moment());
-      this.spellProviderService.setIsLoadingSpell(true);
+      this.spellProviderService.tryAddSpellOnHero(hero, "0002", moment()); // used to calculate cooldown
+      this.spellProviderService.setIsLoadingSpell(true); // used to hide/display progress bar
 
       let doWhenCastComplete = () => {
         this.spellProviderService.setIsLoadingSpell(false),
-          this.changeHeroHealth(hero, currentHeal.amount),
-          this.playerProviderService.updateBothManaAndBar(currentHeal.cost)
+        this.changeHeroHealth(hero, currentHeal.amount),
+        this.playerProviderService.updateBothManaAndBar(currentHeal.cost)
       };
 
       this.movePlayerProgressBar(600, doWhenCastComplete);
     }
   }
 
-  // =======================
-  // Boss attacks
-  // =======================
-
-  doBossPattern(boss: Boss) {
-    // Interval
-    let subscription: Subscription;
-    let timer = Observable.timer(1000, 1000);
-    subscription = timer.subscribe(t => {
-      // If boss is dead then stop
-      if (boss.isDead() || this.raidProviderService.isWipe()) {
-        subscription.unsubscribe();
-      } else {
-        // Main attack
-        let tankIfAliveOrElseHero = this.raidProviderService.getTankIfAliveOrElseHero();
-        if (tankIfAliveOrElseHero != null) {
-          this.bossProviderService.getBoss().setFocus(tankIfAliveOrElseHero);
-          this.changeHeroHealth(tankIfAliveOrElseHero, 2000);
-        }
-
-        // Secondary attack (every n seconds) // attackonly alive person
-        let randomHero = this.raidProviderService.getRandomAliveHero();
-        if (randomHero != null) {
-          this.changeHeroHealth(randomHero, 1000);
-        }
-
-        // Thrid attack (every n seconds)
-        randomHero = this.raidProviderService.getRandomAliveHero();
-        if (randomHero != null) {
-          this.changeHeroHealth(randomHero, 500);
-        }
-      }
-    });
-  }
 
   movePlayerProgressBar(milliseconds: number, doWhenCastComplete: any) {
     // Observable emits

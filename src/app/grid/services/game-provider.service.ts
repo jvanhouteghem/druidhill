@@ -30,7 +30,7 @@ export class GameProviderService extends Pause{
   startGame() {
     this.playerProviderService.setPlayer("Lea", 20000, 15500);
     this.raidProviderService.generateRaid();
-    this.raidDmgService.doBossPattern(this.bossProviderService.getBoss());
+    this.bossProviderService.doBossPattern();
     this.playerProviderService.startPlayerManaRegen();
     this.initializeHealthBar();
     this.initializeManaBar();    
