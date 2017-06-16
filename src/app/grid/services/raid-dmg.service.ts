@@ -117,14 +117,14 @@ export class RaidDmgService {
     if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0002", moment().clone())) {
       this.spellProviderService.tryAddSpellOnHero(hero, "0002", moment());
       this.spellProviderService.setIsLoadingSpell(true);
-      
-      this.moveProgressBar(600);/*.then(() => {
-        this.spellProviderService.setIsLoadingSpell(false);
-        // heal
-        this.changeHeroHealth(hero, currentHeal.amount);
-        // pay cost
-        this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
-      });*/
+
+      let doWhenCastComplete = () => {
+        this.spellProviderService.setIsLoadingSpell(false),
+          this.changeHeroHealth(hero, currentHeal.amount),
+          this.playerProviderService.updateBothManaAndBar(currentHeal.cost)
+      };
+
+      this.movePlayerProgressBar(600, doWhenCastComplete);
     }
   }
 
@@ -163,7 +163,7 @@ export class RaidDmgService {
     });
   }
 
-  moveProgressBar(milliseconds: number){
+  movePlayerProgressBar(milliseconds: number, doWhenCastComplete: any) {
     // Observable emits
     var source = Rx.Observable
       .interval(milliseconds / 100)
@@ -174,9 +174,9 @@ export class RaidDmgService {
     var elem = document.getElementById("progressBar");
     var width = 0;
     var observer = {
-      next: x => {width++, elem.style.width = width + '%'},
+      next: x => { width++ , elem.style.width = width + '%' },
       error: err => console.error('Observer got an error: ' + err),
-      complete: () => console.log('Observer got a complete notification : casting heal done'),
+      complete: () => { console.log('Observer got a complete notification : casting heal done'), doWhenCastComplete() },
     };
 
     this.playerCastingSubscription = source.subscribe(observer);
