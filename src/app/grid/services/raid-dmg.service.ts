@@ -176,7 +176,7 @@ export class RaidDmgService {
     var observer = {
       next: x => { width++ , elem.style.width = width + '%' },
       error: err => console.error('Observer got an error: ' + err),
-      complete: () => { console.log('Observer got a complete notification : casting heal done'), doWhenCastComplete() },
+      complete: () => { console.log('Observer got a complete notification : player progress bar loaded'), doWhenCastComplete() },
     };
 
     this.playerCastingSubscription = source.subscribe(observer);
