@@ -37,25 +37,25 @@ private raid:Hero[] = [];
     this.raid.push(new Hero(this.generateHeroId(), this._getPlayer().getName(), this._getPlayer().getCurrentHealth(), CLASSCOLORS.druid, false, true));
     this.raid.push(new Hero(this.generateHeroId(), 'Max', 15000, CLASSCOLORS.hunt));
     this.raid.push(new Hero(this.generateHeroId(), 'Ark', 30000, CLASSCOLORS.war, true));
-    this.raid.push(new Hero(this.generateHeroId(), 'Niz', 10000, CLASSCOLORS.pal));
-    this.raid.push(new Hero(this.generateHeroId(), 'Lupo', 10000, CLASSCOLORS.priest));
-    this.raid.push(new Hero(this.generateHeroId(), 'Cam', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Hero(this.generateHeroId(), 'Shak', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Hero(this.generateHeroId(), 'Meg', 10000, CLASSCOLORS.druid));
-    this.raid.push(new Hero(this.generateHeroId(), 'Pop', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Hero(this.generateHeroId(), 'Cor', 10000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Niz', 12000, CLASSCOLORS.pal));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lupo', 12000, CLASSCOLORS.priest));
+    this.raid.push(new Hero(this.generateHeroId(), 'Cam', 12000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Shak', 12000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Meg', 12000, CLASSCOLORS.druid));
+    this.raid.push(new Hero(this.generateHeroId(), 'Pop', 12000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Cor', 12000, CLASSCOLORS.hunt));
     // 10 - 15
-    this.raid.push(new Hero(this.generateHeroId(), 'Lot', 10000, CLASSCOLORS.pal));
-    this.raid.push(new Hero(this.generateHeroId(), 'Vim', 10000, CLASSCOLORS.wizard));
-    this.raid.push(new Hero(this.generateHeroId(), 'Luf', 10000, CLASSCOLORS.war));
-    this.raid.push(new Hero(this.generateHeroId(), 'Gop', 10000, CLASSCOLORS.druid));
-    this.raid.push(new Hero(this.generateHeroId(), 'Tor', 10000, CLASSCOLORS.priest));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lot', 12000, CLASSCOLORS.pal));
+    this.raid.push(new Hero(this.generateHeroId(), 'Vim', 12000, CLASSCOLORS.wizard));
+    this.raid.push(new Hero(this.generateHeroId(), 'Luf', 12000, CLASSCOLORS.war));
+    this.raid.push(new Hero(this.generateHeroId(), 'Gop', 12000, CLASSCOLORS.druid));
+    this.raid.push(new Hero(this.generateHeroId(), 'Tor', 12000, CLASSCOLORS.priest));
     // 15 -20
-    this.raid.push(new Hero(this.generateHeroId(), 'Nim', 10000, CLASSCOLORS.wizard));
-    this.raid.push(new Hero(this.generateHeroId(), 'Lou', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Hero(this.generateHeroId(), 'Rag', 10000, CLASSCOLORS.rogue));
-    this.raid.push(new Hero(this.generateHeroId(), 'Pur', 10000, CLASSCOLORS.hunt));
-    this.raid.push(new Hero(this.generateHeroId(), 'Naz', 10000, CLASSCOLORS.pal));
+    this.raid.push(new Hero(this.generateHeroId(), 'Nim', 12000, CLASSCOLORS.wizard));
+    this.raid.push(new Hero(this.generateHeroId(), 'Lou', 12000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Rag', 12000, CLASSCOLORS.rogue));
+    this.raid.push(new Hero(this.generateHeroId(), 'Pur', 12000, CLASSCOLORS.hunt));
+    this.raid.push(new Hero(this.generateHeroId(), 'Naz', 12000, CLASSCOLORS.pal));
     
     // Add default dmg
     //this.raid[0].setDmgTaken(2000);

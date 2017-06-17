@@ -8,20 +8,16 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 import * as moment from 'moment/moment';
 import {Pause} from '../models/pause';
+import { Boss } from '../models/characters/boss';
 
 @Injectable()
 export class GameProviderService extends Pause{
-
-  /*private subscription: Subscription;
-  private timer = Observable.timer(0, 500);
-  private pause: any;*/
 
   constructor(
     private raidProviderService: RaidProviderService,
     private bossProviderService: BossProviderService,
     private playerProviderService: PlayerProviderService,
     private raidDmgService: RaidDmgService
-    //private spellProviderService: SpellProviderService
   ) { 
     'ngInject';
     super();
@@ -30,6 +26,7 @@ export class GameProviderService extends Pause{
   startGame() {
     this.playerProviderService.setPlayer("Lea", 20000, 15500);
     this.raidProviderService.generateRaid();
+    this.bossProviderService.setBoss(new Boss("THEBOSS", 100000, "normal"));
     this.bossProviderService.doBossPattern();
     this.playerProviderService.startPlayerManaRegen();
     this.initializeHealthBar();

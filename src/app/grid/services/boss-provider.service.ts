@@ -16,11 +16,10 @@ export class BossProviderService {
     private raidProviderService: RaidProviderService,
     private raidDmgService: RaidDmgService
   ) {
-    this.initBoss();
   }
 
-  initBoss() {
-    this.boss = new Boss("THEBOSS", 100000, "Normal");
+  setBoss(boss:Boss){
+    this.boss = boss;
   }
 
   getBoss() {
@@ -55,42 +54,6 @@ export class BossProviderService {
   // Boss attacks
   // =======================
 
-  // N'utiliser raid-dmg que pour modifier la vie du boss ou du raid
-  // Boss provider contient la logique de l'attaque
-
-  /*doBossPattern() {
-    let boss = this.getBoss();
-    //boss.attacks.main(this.raidProviderService.getTankIfAliveOrElseHero());
-    // Interval
-    let subscription: Subscription;
-    let timer = Observable.timer(1000, 1000);
-    subscription = timer.subscribe(t => {
-      // If boss is dead then stop
-      if (boss.isDead() || this.raidProviderService.isWipe()) {
-        subscription.unsubscribe();
-      } else {
-        // Main attack
-        let tankIfAliveOrElseHero = this.raidProviderService.getTankIfAliveOrElseHero();
-        if (tankIfAliveOrElseHero != null) {
-          boss.setFocus(tankIfAliveOrElseHero);
-          this.raidDmgService.changeHeroHealth(tankIfAliveOrElseHero, 2000);
-        }
-
-        // Secondary attack (every n seconds) // attackonly alive person
-        let randomHero = this.raidProviderService.getRandomAliveHero();
-        if (randomHero != null) {
-          this.raidDmgService.changeHeroHealth(randomHero, 1000);
-        }
-
-        // Thrid attack (every n seconds)
-        randomHero = this.raidProviderService.getRandomAliveHero();
-        if (randomHero != null) {
-          this.raidDmgService.changeHeroHealth(randomHero, 500);
-        }
-      }
-    });
-  }*/
-
   private bossPaternSubscription;
 
   getTarget(targetId: String) {
@@ -106,10 +69,18 @@ export class BossProviderService {
     return target;
   }
 
-  simpleAttack(attack) {
+  attackDispatcher(attack){
+    switch (attack.type[0]) {
+      case "N":
+        this.normalAttack(attack);
+        break;
+    }
+  }
+
+  normalAttack(attack) {
     let target = this.getTarget(attack.target[0]);
     if (target != null) {
-      if (attack.addFocus){
+      if (attack.target[0] == "T" && attack.addFocus){
         this.getBoss().setFocus(target);
       }
       this.raidDmgService.changeHeroHealth(target, attack.damages);
@@ -117,21 +88,18 @@ export class BossProviderService {
   }
 
   doBossPattern(){
-
-    let attacks = this.boss.getAttacks().normal;
+    let attacks = this.boss.getAttacks(this.boss.getDifficulty());
     for (let i = 0 ; i < attacks.length ; i++){
       this.doBossAttack(attacks[i]);
     }
   }
 
   doBossAttack(attack) {
-    // Observable emits
     var source = Rx.Observable
       .interval(attack.period);
 
-    // Observer receive
     var observer = {
-      next: () => this.simpleAttack(attack),
+      next: () => this.attackDispatcher(attack),
       error: err => console.error('Observer got an error: ' + err),
       complete: () => console.log('Observer got a complete notification : heal done'),
     };
