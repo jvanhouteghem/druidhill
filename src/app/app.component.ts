@@ -1,6 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { MessageService } from './grid/services/message.service';
 
 @Component({
   selector: 'app-root',

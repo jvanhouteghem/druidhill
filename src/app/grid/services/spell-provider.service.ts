@@ -23,8 +23,7 @@ export class SpellProviderService {
   // cooldown
   // lastTimeUsed : date, used to calculate cooldown
   // usedBy : list of every hero who use the spell : {heroId : 01, lastTimeUsed: moment}
-  private heals = {
-    heals: [
+  private heals =  [
       {
         id: "0001",
         name: "Rejuvenation",
@@ -55,8 +54,7 @@ export class SpellProviderService {
         targetType: "single",
         cooldown: 5000
       }
-    ]
-  }
+    ];
 
   private isLoadingSpell: boolean;
 
@@ -73,7 +71,7 @@ export class SpellProviderService {
   }
 
   getHeals() {
-    return this.heals.heals;
+    return this.heals;
   };
 
   getHealById(healId) {

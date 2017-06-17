@@ -11,10 +11,6 @@ import * as moment from 'moment/moment';
 import { GameProviderService } from './game-provider.service';
 import * as Rx from "rxjs/Rx";
 
-// Only for dmg or heal 
-// move logic separatly
-
-
 @Injectable()
 export class RaidDmgService {
 
@@ -126,6 +122,11 @@ export class RaidDmgService {
   }
 
 
+  // =======================
+  // Others
+  // =======================  
+
+  // todo moove in player-bars
   movePlayerProgressBar(milliseconds: number, doWhenCastComplete: any) {
     // Observable emits
     var source = Rx.Observable
