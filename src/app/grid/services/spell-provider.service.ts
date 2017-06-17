@@ -23,38 +23,52 @@ export class SpellProviderService {
   // cooldown
   // lastTimeUsed : date, used to calculate cooldown
   // usedBy : list of every hero who use the spell : {heroId : 01, lastTimeUsed: moment}
-  private heals =  [
-      {
-        id: "0001",
-        name: "Rejuvenation",
-        cost: -1000,
-        amount: -500,
-        maxStack: 1,
-        time: {
-          initialDelay: 1000,
-          castingTime: 0,
-          period: 1000,
-          duration: 8000
-        },
-        targetType: "single",
-        cooldown: 0
+  private heals = [
+    {
+      id: "0001",
+      name: "Rejuvenation",
+      cost: -1000,
+      amount: -500,
+      maxStack: 1,
+      time: {
+        initialDelay: 1000,
+        castingTime: 0,
+        period: 1000,
+        duration: 8000
       },
-      {
-        id: "0002",
-        name: "HealingTouch",
-        cost: -5000,
-        amount: -15000,
-        maxStack: 1,
-        time: {
-          initialDelay: 0,
-          castingTime: 5000,
-          period: 0,
-          duration: 0
-        },
-        targetType: "single",
-        cooldown: 5000
-      }
-    ];
+      targetType: "single",
+      cooldown: 0
+    },
+    {
+      id: "0002",
+      name: "HealingTouch",
+      cost: -5000,
+      amount: -15000,
+      maxStack: 1,
+      time: {
+        initialDelay: 0,
+        castingTime: 5000,
+        period: 0,
+        duration: 0
+      },
+      targetType: "single",
+      cooldown: 5000
+    }, {
+      id: "0003",
+      name: "HealingGrowth",
+      cost: -2000,
+      amount: -1000,
+      maxStack: 1,
+      time: {
+        initialDelay: 0,
+        castingTime: 0,
+        period: 1000,
+        duration: 5000
+      },
+      targetType: "single", //[0,-1,+1], // select target (0), previous (-1) and next (+1)
+      cooldown: 5000
+    }
+  ];
 
   private isLoadingSpell: boolean;
 
@@ -62,11 +76,11 @@ export class SpellProviderService {
     this.isLoadingSpell = false;
   }
 
-  setIsLoadingSpell(value){
+  setIsLoadingSpell(value) {
     this.isLoadingSpell = value;
   }
 
-  getIsLoadingSpell(){
+  getIsLoadingSpell() {
     return this.isLoadingSpell;
   }
 
@@ -94,10 +108,10 @@ export class SpellProviderService {
         if (spellId != undefined && currentHeroSpells[j].spellId === spellId && currentHeroSpells[j].lastTimeUsed.isAfter(result)) {
           result = currentHeroSpells[j].lastTimeUsed.clone();
           let tst = spellId != currentHeroSpells[j].id;
-        } 
+        }
         // Retreive last update moment of any spell
-        else if (spellId  === undefined && currentHeroSpells[j].lastTimeUsed.isAfter(result)){
-            result = currentHeroSpells[j].lastTimeUsed.clone();
+        else if (spellId === undefined && currentHeroSpells[j].lastTimeUsed.isAfter(result)) {
+          result = currentHeroSpells[j].lastTimeUsed.clone();
         }
       }
 
@@ -108,10 +122,10 @@ export class SpellProviderService {
   isHealOnCooldown(spellId, inputMoment) {
     let lastTimeSpellUsed = this.getLastTimeSpellUsed();
     let isGlobalCooldown = !inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(lastTimeSpellUsed);
-    
+
     let lastTimeInputHealUsed = this.getLastTimeSpellUsed(spellId);
     let isHealOnCooldown = !inputMoment.clone().subtract(this.getHealById(spellId).cooldown, 'millisecond').isAfter(lastTimeInputHealUsed);
-    
+
     return isGlobalCooldown || isHealOnCooldown;
   }
 

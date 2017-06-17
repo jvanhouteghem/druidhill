@@ -48,7 +48,6 @@ export class Boss extends Character {
                 }],
             normal: [
                 {
-                    //id: "001", // le type d'attaque, exemple simple damage pour 001
                     type: ["N"],
                     target: ["T"], // T tank, R Random, P Player, L Lower, H Higher
                     damages: 500, // todo replace max min [500, 2500] and add random

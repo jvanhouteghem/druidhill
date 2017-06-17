@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {RaidProviderService} from './services/raid-provider.service';
-import {RaidDmgService} from './services/raid-dmg.service';
-import {BossProviderService} from './services/boss-provider.service';
-import {PlayerProviderService} from './services/player-provider.service';
-import {SpellProviderService} from './services/spell-provider.service';
-import {GameProviderService} from './services/game-provider.service';
-import {Hero} from './models/characters/hero';
+import { RaidProviderService } from './services/raid-provider.service';
+import { RaidDmgService } from './services/raid-dmg.service';
+import { BossProviderService } from './services/boss-provider.service';
+import { PlayerProviderService } from './services/player-provider.service';
+import { SpellProviderService } from './services/spell-provider.service';
+import { GameProviderService } from './services/game-provider.service';
+import { Hero } from './models/characters/hero';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import * as moment from 'moment/moment';
 
@@ -16,49 +16,55 @@ import * as moment from 'moment/moment';
 })
 export class GridComponent implements OnInit {
 
-//http://localhost:4200/assets/img/0001.jpg
-@Input() imgPath:string = "app/assets/img";
-imgFileName:string = "001.jpg";
+  //http://localhost:4200/assets/img/0001.jpg
+  @Input() imgPath: string = "app/assets/img";
+  imgFileName: string = "001.jpg";
 
-    
 
-// Only for event and display
-  constructor (
-    private raidProviderService:RaidProviderService,
+
+  // Only for event and display
+  constructor(
+    private raidProviderService: RaidProviderService,
     private raidDmgService: RaidDmgService,
-    private bossProviderService:BossProviderService,
-    private playerProviderService:PlayerProviderService,
-    private spellProviderService:SpellProviderService,
-    private gameProviderService:GameProviderService
+    private bossProviderService: BossProviderService,
+    private playerProviderService: PlayerProviderService,
+    private spellProviderService: SpellProviderService,
+    private gameProviderService: GameProviderService
   ) { 'ngInject'; }
 
-  ngOnInit () {
+  ngOnInit() {
     this.gameProviderService.startGame();
   }
 
-  _getRaid(){
+  _getRaid() {
     return this.raidProviderService.getRaid();
   }
 
-  getCSSGradient(heroId:number){
+  getCSSGradient(heroId: number) {
     let hero = this.raidProviderService.getRaid()[heroId];
     return "linear-gradient(0deg, " + hero.getClassColor() + " " + this._getHeroHealthInPercent(hero.getId()) + "%, #4a4a4a 0%)"; // Warning, don't add ";" in string // life / background
   }
 
-  _changeHeroHealth(hero: Hero,inputNb: number){
+  _changeHeroHealth(hero: Hero, inputNb: number) {
     this.raidDmgService.changeHeroHealth(hero, inputNb);
   }
 
-  _getHeroHealthInPercent(heroId:number){
+  _getHeroHealthInPercent(heroId: number) {
     return this.raidProviderService.getRaid()[heroId].getCurrentHealthInPercent();
   }
 
-  leftClickOnHero(evt, heroId){ //evt.altKey // evt.ctrlKey
-    let hero = this.raidProviderService.getRaid()[heroId];
-    this.raidDmgService.rejuvenation(hero);
+  leftClickOnHero(evt, heroId) { //evt.altKey // evt.ctrlKey
+    if (evt.altKey) {
+      this.raidDmgService.wildGrowth(heroId);
+    }
+    else {
+      let hero = this.raidProviderService.getRaid()[heroId];
+      this.raidDmgService.rejuvenation(hero);
+    }
   }
 
-  rightClickOnHero(evt, heroId){
+
+  rightClickOnHero(evt, heroId) {
     let hero = this.raidProviderService.getRaid()[heroId];
     this.raidDmgService.healingTouch(hero);
     /*if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(-5000)){
@@ -67,7 +73,7 @@ imgFileName:string = "001.jpg";
     }*/
   }
 
-  getPlayer(){
+  getPlayer() {
     return this.playerProviderService.getPlayer();
   }
 

@@ -50,6 +50,10 @@
     border-color: #ff0000;
 }
 
+.box-border-yellow{
+    border-color: #fecb28;
+}
+
 .box-top, .box-bottom, .bot-middle{
     width:50px;
 }

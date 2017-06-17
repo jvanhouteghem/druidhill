@@ -116,4 +116,29 @@ private raid:Hero[] = [];
     return this.getRandomAliveHero();
   }
 
+  // retourne un array d'héro sélectionnés
+  getRaidFilter(heroId:number){
+    let resultHeroList = [];
+
+    // The hero clicked
+    resultHeroList.push(this.getRaid()[heroId]);
+
+    // Left hero
+    let isHeroMinus1Exists = heroId - 1 >= 0;
+    let isHeroMinus1OnTheSameLine = heroId % 5;  // if heroId % 5 = 0 we are on the left border => then we don't heal left
+    if (isHeroMinus1Exists && isHeroMinus1OnTheSameLine) {
+      resultHeroList.push(this.getRaid()[heroId - 1]);
+    }
+
+    // Right Hero
+    let isHeroPlus1Exists = heroId + 1 <= 20;
+    let isHeroPlus1OnTheSameLine = (heroId + 1) % 5 != 0; // if (heroId + 1) % 5 = 0 we are on the right border => then we don't heal right
+    if (isHeroPlus1Exists && isHeroPlus1OnTheSameLine) {
+      resultHeroList.push(this.getRaid()[heroId + 1]);
+    }
+
+    return resultHeroList;
+
+  }
+
 }
