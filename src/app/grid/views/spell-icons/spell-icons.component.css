@@ -12,3 +12,39 @@
 ::-moz-selection {
     background: transparent;
 }
+
+/* https://stackoverflow.com/questions/32586563/html-css-position-icon-above-text */
+.backButton{
+  /*background-position:center top;*/
+  height: 56px;
+  width: 56px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  position:center top;
+}
+
+.healIcon001{
+  background-image: url(http://localhost:4200/assets/img/0001.jpg);
+}
+
+.healIcon002{
+  background-image: url(http://localhost:4200/assets/img/0002.jpg);
+}
+
+.healIcon003{
+  background-image: url(http://localhost:4200/assets/img/0003.jpg);
+}
+
+/* --------------- */
+
+button {
+  height: 56px;
+  width: 56px;
+}
+
+button.imgButton {
+  color: white;
+  background-size:cover; /* <-- scale the image to cover the button */
+  background-position:center center; /* <-- center the image in the button */
+}

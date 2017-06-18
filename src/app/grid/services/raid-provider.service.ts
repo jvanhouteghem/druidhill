@@ -59,10 +59,10 @@ private raid:Hero[] = [];
     
     // Add default dmg
     //this.raid[0].setDmgTaken(2000);
-    this.raid[2].setDmgTaken(3000);
+    /*this.raid[2].setDmgTaken(3000);
     this.raid[5].setDmgTaken(1000);
     this.raid[7].setDmgTaken(5000);
-    this.raid[9].setDmgTaken(7000);
+    this.raid[9].setDmgTaken(7000);*/
 
     //this.doWipe();
     return true;

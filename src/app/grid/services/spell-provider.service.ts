@@ -55,7 +55,7 @@ export class SpellProviderService {
       cooldown: 5000
     }, {
       id: "0003",
-      name: "HealingGrowth",
+      name: "WildGrowth",
       cost: -2000,
       amount: -1000,
       maxStack: 1,
@@ -119,7 +119,7 @@ export class SpellProviderService {
     return result;
   }
 
-  isHealOnCooldown(spellId, inputMoment) {
+  isHealOnCooldown(spellId: string, inputMoment) {
     let lastTimeSpellUsed = this.getLastTimeSpellUsed();
     let isGlobalCooldown = !inputMoment.clone().subtract(this.globalCooldown, 'millisecond').isAfter(lastTimeSpellUsed);
 
@@ -138,5 +138,30 @@ export class SpellProviderService {
       hero.updateSpell(inputSpellId, inputSpellUsedTime);
     }
   }
+
+  // EXCEPTION: Expression has changed after it was checked.
+  getHealCooldown(spellId: string, inputMoment) {
+    var now = inputMoment; //todays date
+    var lastTime = this.getLastTimeSpellUsed(spellId) // another date
+    var duration = this.getHealById(spellId).cooldown/1000 - Math.round(moment.duration(now.diff(lastTime)).asSeconds());
+    return duration > 0 ? duration + "s" : "";
+  }
+
+  /*
+    // active if not on cd
+    isSpellActive(inputSpellId){
+      let result = false;
+      for (let i = 0 ; i < this.spellsOnHero.length ; i++){
+        if (this.spellsOnHero[i].spellId === inputSpellId){
+          var now = moment().clone(); //todays date
+          var lastTime = this.spellsOnHero[i].lastTimeUsed; // another date
+          var duration = moment.duration(now.diff(lastTime)).asMilliseconds();
+          result = duration <= 5000 ? true : false; // todo dynamic value
+          break;
+        }
+      }
+      return result;
+    }
+  */
 
 }

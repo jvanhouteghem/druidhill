@@ -18,4 +18,8 @@ export class SpellIconsComponent implements OnInit {
     return this.spellProviderService.isHealOnCooldown(healId, moment());
   }
 
+  _getHealCooldown(healId:string){
+    return this.spellProviderService.getHealCooldown(healId, moment());
+  }
+
 }

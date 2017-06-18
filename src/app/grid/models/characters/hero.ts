@@ -132,7 +132,7 @@ export class Hero extends Character {
         var now = moment().clone(); //todays date
         var lastTime = this.spellsOnHero[i].lastTimeUsed; // another date
         var duration = moment.duration(now.diff(lastTime)).asMilliseconds();
-        result = duration <= 5000 ? true : false;
+        result = duration <= 5000 ? true : false; // todo dynamic value
         break;
       }
     }

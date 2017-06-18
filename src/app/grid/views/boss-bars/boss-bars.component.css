@@ -30,7 +30,7 @@
   color: white;
 }
 
-#bossHeathTextBar {
+#bossHealthTextBar {
     z-index: 100;
     position: absolute;
     color: white;
