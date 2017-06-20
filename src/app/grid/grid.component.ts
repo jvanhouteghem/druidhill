@@ -30,7 +30,12 @@ export class GridComponent implements OnInit {
     private playerProviderService: PlayerProviderService,
     private spellProviderService: SpellProviderService,
     private gameProviderService: GameProviderService
-  ) { 'ngInject'; }
+  ) {
+
+    'ngInject';
+
+
+  }
 
   ngOnInit() {
     this.gameProviderService.startGame();

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from "rxjs";
 import { Boss } from '../models/characters/boss';
 import { Hero } from '../models/characters/hero';
+import { Player } from '../models/characters/player';
 
 import * as moment from 'moment/moment';
 import { GameProviderService } from './game-provider.service';
@@ -17,6 +18,7 @@ export class RaidDmgService {
   private healJson;
 
   private changeHealthSubscription;
+  private changeManaSubscription;
   private playerCastingSubscription;
 
   constructor(
@@ -83,6 +85,28 @@ export class RaidDmgService {
     this.changeHealthSubscription = source.subscribe(observer);
   }
 
+  changePlayerMana(inputValue: number) {
+    let player = this.playerProviderService.getPlayer();
+    player.updateMana(inputValue);
+  }
+
+  changePlayerManaOnTime(inputValue, milliSecondByTick = 1000, nbTick = 1) {
+    // Observable emits
+    var source = Rx.Observable
+      .interval(milliSecondByTick)
+      //.timeInterval()
+      .take(nbTick); // call complete() after nbTick is done
+
+    // Observer receive
+    var observer = {
+      next: x => this.changePlayerMana(inputValue),
+      error: err => console.error('Observer got an error: ' + err),
+      complete: () => console.log('Observer got a complete notification : mana regen done'),
+    };
+
+    this.changeManaSubscription = source.subscribe(observer);
+  }
+
   // =======================
   // Filters
   // =======================
@@ -136,6 +160,11 @@ export class RaidDmgService {
 
       this.movePlayerProgressBar(600, doWhenCastComplete);
     }
+  }
+
+  innervate(){
+    this.spellProviderService.tryAddSpellOnHero(this.raidProviderService.getRaid()[0], "0004", moment()); // used to calculate cooldown
+    this.changePlayerManaOnTime(3000, 1000, 5);
   }
 
   // =======================
