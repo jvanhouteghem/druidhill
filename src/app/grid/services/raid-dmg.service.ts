@@ -120,9 +120,10 @@ export class RaidDmgService {
   // =======================
 
   rejuvenation(hero: Hero) {
-    let currentHeal = this.spellProviderService.getHealById("0001");
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0001", moment().clone())) {
-      this.spellProviderService.tryAddSpellOnHero(hero, "0001", moment()); // used to calculate cooldown
+    let SPELLID = "0001";
+    let currentHeal = this.spellProviderService.getHealById(SPELLID);
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown(SPELLID, moment().clone())) {
+      this.spellProviderService.tryAddSpellOnHero(hero, SPELLID, moment()); // used to calculate cooldown
       this.changeHeroHealthOnTime(hero, currentHeal.amount, currentHeal.time.period, currentHeal.time.duration/currentHeal.time.period);
       this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
     }
@@ -130,9 +131,10 @@ export class RaidDmgService {
 
   healingTouch(hero: Hero) {
     //this.subscription.unsubscribe();
-    let currentHeal = this.spellProviderService.getHealById("0002");
-    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown("0002", moment().clone())) {
-      this.spellProviderService.tryAddSpellOnHero(hero, "0002", moment()); // used to calculate cooldown
+    let SPELLID = "0002";
+    let currentHeal = this.spellProviderService.getHealById(SPELLID);
+    if (hero.isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost) && !this.spellProviderService.isHealOnCooldown(SPELLID, moment().clone())) {
+      this.spellProviderService.tryAddSpellOnHero(hero, SPELLID, moment()); // used to calculate cooldown
       this.spellProviderService.setIsLoadingSpell(true); // used to hide/display progress bar
 
       let doWhenCastComplete = () => {
@@ -145,15 +147,16 @@ export class RaidDmgService {
   }
 
   wildGrowth(heroId: number) {
+    let SPELLID = "0003";
     let heroListToHeal = this.raidProviderService.getRaidFilter(heroId);
     let raidModulo = 5; // 5 = length / heroByLines
-    let currentHeal = this.spellProviderService.getHealById("0003");
+    let currentHeal = this.spellProviderService.getHealById(SPELLID);
 
-    if (heroListToHeal.length > 0 && !this.spellProviderService.isHealOnCooldown("0003", moment().clone())) {
+    if (heroListToHeal.length > 0 && !this.spellProviderService.isHealOnCooldown(SPELLID, moment().clone())) {
       this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
       for (let i = 0; i < heroListToHeal.length; i++) {
         if (heroListToHeal[i].isHealingPossible() && this.playerProviderService.getPlayer().isEnoughMana(currentHeal.cost)) {
-          this.spellProviderService.tryAddSpellOnHero(heroListToHeal[i], "0003", moment()); // used to calculate cooldown
+          this.spellProviderService.tryAddSpellOnHero(heroListToHeal[i], SPELLID, moment()); // used to calculate cooldown
           this.changeHeroHealthOnTime(heroListToHeal[i], currentHeal.amount, currentHeal.time.period, currentHeal.time.duration/currentHeal.time.period);
         }
       }
@@ -161,17 +164,19 @@ export class RaidDmgService {
   }
 
   innervate() {
-    let currentSpell = this.spellProviderService.getHealById("0004");
-    this.spellProviderService.tryAddSpellOnHero(this.raidProviderService.getRaid()[0], "0004", moment()); // used to calculate cooldown
+    let SPELLID = "0004";
+    let currentSpell = this.spellProviderService.getHealById(SPELLID);
+    this.spellProviderService.tryAddSpellOnHero(this.raidProviderService.getRaid()[0], SPELLID, moment()); // used to calculate cooldown
     this.changePlayerManaOnTime(currentSpell.amount, currentSpell.time.period, currentSpell.time.duration/currentSpell.time.period);
   }
 
   tranquility() {
-    let currentHeal = this.spellProviderService.getHealById("0005");
+    let SPELLID = "0005";
+    let currentHeal = this.spellProviderService.getHealById(SPELLID);
     let raid = this.raidProviderService.getRaid();
     this.playerProviderService.updateBothManaAndBar(currentHeal.cost);
     for (let i = 0; i < raid.length; i++) {
-      this.spellProviderService.tryAddSpellOnHero(raid[i], "0005", moment()); // used to calculate cooldown
+      this.spellProviderService.tryAddSpellOnHero(raid[i], SPELLID, moment()); // used to calculate cooldown
       this.changeHeroHealthOnTime(raid[i], currentHeal.amount, currentHeal.time.period, currentHeal.time.duration/currentHeal.time.period);
     }
   }

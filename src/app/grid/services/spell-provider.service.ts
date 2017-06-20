@@ -80,7 +80,7 @@ export class SpellProviderService {
         duration: 5000
       },
       targetType: "single", //[0,-1,+1], // select target (0), previous (-1) and next (+1)
-      cooldown: 5000
+      cooldown: 25000
     }, {
       id: "0005",
       name: "Tranquility",
