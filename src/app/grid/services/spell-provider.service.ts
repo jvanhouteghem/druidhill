@@ -15,10 +15,9 @@ export class SpellProviderService {
   // amount : the amount of heal
   // maxStack : max number of similar heal at the same time on the target
   // currentStack : nb of stack at this time
-  // initialDelay : start after the initialDelay
+  // initialDelay : start after the initialDelay (by example for casting spells)
   // period : the heal occurs every x seconds
   // duration : the duration of the heal
-  // castingTime : delay heal
   // target Type : single; cross, diagonal
   // cooldown
   // lastTimeUsed : date, used to calculate cooldown
@@ -48,8 +47,7 @@ export class SpellProviderService {
       maxStack: 1,
       //type: "H",
       time: {
-        initialDelay: 0,
-        castingTime: 5000,
+        initialDelay: 1300,
         period: 0,
         duration: 0
       },
@@ -64,7 +62,6 @@ export class SpellProviderService {
       //type: "H",
       time: {
         initialDelay: 0,
-        castingTime: 0,
         period: 1000,
         duration: 5000
       },
@@ -79,7 +76,6 @@ export class SpellProviderService {
       //type: "M",
       time: {
         initialDelay: 0,
-        castingTime: 0,
         period: 1000,
         duration: 5000
       },
@@ -94,7 +90,6 @@ export class SpellProviderService {
       //type: "H",
       time: {
         initialDelay: 0,
-        castingTime: 0,
         period: 1000,
         duration: 5000
       },

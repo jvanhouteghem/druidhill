@@ -140,8 +140,7 @@ export class RaidDmgService {
           this.changeHeroHealth(hero, currentHeal.amount),
           this.playerProviderService.updateBothManaAndBar(currentHeal.cost)
       };
-      let progressBarSpeedInMillis = 600;
-      this.movePlayerProgressBar(progressBarSpeedInMillis, doWhenCastComplete);
+      this.movePlayerProgressBar(currentHeal.time.initialDelay, doWhenCastComplete);
     }
   }
 
