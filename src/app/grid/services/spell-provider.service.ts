@@ -7,7 +7,7 @@ import { RaidProviderService } from './raid-provider.service';
 export class SpellProviderService {
 
 
-  private globalCooldown = 1000;
+  private globalCooldown:number = 1000;
 
   // id : unique, match with .img
   // name
@@ -30,7 +30,7 @@ export class SpellProviderService {
       cost: -1000,
       amount: -500,
       maxStack: 1,
-      type: "H", // H heal, M mana regen
+      //type: "H", // H heal, M mana regen
       time: {
         initialDelay: 1000,
         castingTime: 0,
@@ -46,7 +46,7 @@ export class SpellProviderService {
       cost: -5000,
       amount: -15000,
       maxStack: 1,
-      type: "H",
+      //type: "H",
       time: {
         initialDelay: 0,
         castingTime: 5000,
@@ -61,7 +61,7 @@ export class SpellProviderService {
       cost: -2000,
       amount: -1000,
       maxStack: 1,
-      type: "H",
+      //type: "H",
       time: {
         initialDelay: 0,
         castingTime: 0,
@@ -74,9 +74,9 @@ export class SpellProviderService {
       id: "0004",
       name: "Innervate",
       cost: 0,
-      amount: -2000,
+      amount: 2000, // positive when win mana
       maxStack: 1,
-      type: "M",
+      //type: "M",
       time: {
         initialDelay: 0,
         castingTime: 0,
@@ -84,6 +84,21 @@ export class SpellProviderService {
         duration: 5000
       },
       targetType: "single", //[0,-1,+1], // select target (0), previous (-1) and next (+1)
+      cooldown: 5000
+    }, {
+      id: "0005",
+      name: "Tranquility",
+      cost: 0,
+      amount: -2000,
+      maxStack: 1,
+      //type: "H",
+      time: {
+        initialDelay: 0,
+        castingTime: 0,
+        period: 1000,
+        duration: 5000
+      },
+      targetType: "all", //[0,-1,+1], // select target (0), previous (-1) and next (+1)
       cooldown: 5000
     }
   ];

@@ -54,6 +54,10 @@
     border-color: #fecb28;
 }
 
+.box-border-green{
+    border-color: #00CC99;
+}
+
 .box-top, .box-bottom, .bot-middle{
     width:50px;
 }
@@ -80,7 +84,7 @@
 }
 
 .box-square-green{
-    background: #0ff00f;
+    background: #00CC99;
 }
 
 .box-square-yellow{

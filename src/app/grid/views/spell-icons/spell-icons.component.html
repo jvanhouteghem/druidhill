@@ -1,18 +1,5 @@
 <img class="healIcon0" [ngClass]="{'healicon-fade': _isHealOnCooldown('0001')}" src="http://localhost:4200/assets/img/0001.jpg" />
 <img class="healIcon1" [ngClass]="{'healicon-fade': _isHealOnCooldown('0002')}" src="http://localhost:4200/assets/img/0002.jpg" />
-<img class="healIcon2" [ngClass]="{'healicon-fade': _isHealOnCooldown('0004')}" (click)="_Innervate()" src="http://localhost:4200/assets/img/0003.jpg" />
-<img class="healIcon3" src="http://localhost:4200/assets/img/0004.jpg" />
-<img class="healIcon4" [ngClass]="{'healicon-fade': _isHealOnCooldown('0003')}" src="http://localhost:4200/assets/img/0005.jpg" />
-
-<!-- Fail css -->
-
-<!--
-<input type="button" [ngClass]="{'healicon-fade': _isHealOnCooldown('0001')}" value="{{_getHealCooldown('0001')}}" class="backButton healIcon001">
-<input type="button" [ngClass]="{'healicon-fade': _isHealOnCooldown('0002')}" value="{{_getHealCooldown('0002')}}" class="backButton healIcon002">
-<input type="button" [ngClass]="{'healicon-fade': _isHealOnCooldown('0003')}" value="{{_getHealCooldown('0003')}}" class="backButton healIcon003">
--->
-
-<!--
-<button class='imgButton healIcon001'>lol</button>
-<button class='imgButton healIcon001' [ngClass]="{'healicon-fade': _isHealOnCooldown('0001')}">{{_getHealCooldown('0001')}}</button>
--->
+<img class="healIcon2" [ngClass]="{'healicon-fade': _isHealOnCooldown('0003')}" src="http://localhost:4200/assets/img/0003.jpg" />
+<img class="healIcon3" [ngClass]="{'healicon-fade': _isHealOnCooldown('0004')}" src="http://localhost:4200/assets/img/0004.jpg" (click)="_innervate()" />
+<img class="healIcon4" [ngClass]="{'healicon-fade': _isHealOnCooldown('0005')}" src="http://localhost:4200/assets/img/0005.jpg" (click)="_tranquility()" />

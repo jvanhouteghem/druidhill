@@ -28,9 +28,13 @@ export class SpellIconsComponent implements OnInit {
     return this.spellProviderService.getHealCooldown(healId, moment());
   }
 
-  _Innervate() {
+  _innervate() {
     let hero = this.playerProviderService;
     this.raidDmgService.innervate();
+  }
+
+  _tranquility(){
+    this.raidDmgService.tranquility();
   }
 
 
