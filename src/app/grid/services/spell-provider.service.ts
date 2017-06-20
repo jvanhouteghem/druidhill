@@ -88,7 +88,7 @@ export class SpellProviderService {
     }, {
       id: "0005",
       name: "Tranquility",
-      cost: 0,
+      cost: -7000,
       amount: -2000,
       maxStack: 1,
       //type: "H",
@@ -99,7 +99,7 @@ export class SpellProviderService {
         duration: 5000
       },
       targetType: "all", //[0,-1,+1], // select target (0), previous (-1) and next (+1)
-      cooldown: 5000
+      cooldown: 30000
     }
   ];
 
